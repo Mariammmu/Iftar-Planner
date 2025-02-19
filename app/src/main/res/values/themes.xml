@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.IftarPlanner" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/primary_light</item>
+
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/primary_text</item>
+
+        <item name="backgroundColor">@color/background</item>
+        <item name="colorOnBackground">@color/background_on</item>
+
+        <item name ="android:statusBarColor" >?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">#19374F</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+
+
+    </style>
+    <style name="Theme.IftarPlanner" parent="Base.Theme.IftarPlanner" />
+</resources>

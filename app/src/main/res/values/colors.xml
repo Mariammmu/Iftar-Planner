@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="turquoise">#7CA2B2</color>
+    <color name="light_turquoise">#7CA3B2</color>
+    <color name="mustard">#FBB552</color>
+    <color name="dark_blue">#19374F</color>
+    <color name="white_moon">#FDFDFD</color>
+
+    <color name="background">#FDFDFD</color>
+
+    <color name="background_on">#7CA2B2</color>
+    <color name="primary_light">#9CC1CB</color>
+    <color name="accent">#FDB652</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="primary_dark">#19374F</color>
+    <color name="icons">#6790BC</color>
+    <color name="divider">#C2BEBE</color>
+
+</resources>

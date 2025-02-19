@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.IftarPlanner" parent="Theme.Material3.DayNight">
+        <!-- Customize your dark theme here. "Theme.Material3.DayNight.NoActionBar"-->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name ="android:statusBarColor" tools:targetApi="1">#19374F</item>
+        <item name="android:navigationBarColor">#19374F</item>
+
+        <item name="android:windowLightStatusBar">true</item>            >
+
+    </style>
+</resources>
