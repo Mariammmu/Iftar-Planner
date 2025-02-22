@@ -9,62 +9,89 @@
     tools:context=".Views.ProfileFragment">
 
 
-
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:fontFamily="@font/sigmar"
+        android:text="Hello, my chef "
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="73dp" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="176dp"
         android:layout_height="201dp"
         android:src="@drawable/user"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="132dp" />
+        app:layout_constraintBottom_toTopOf="@+id/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:id="@+id/fav"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="center"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="393dp" />
+        android:background="@drawable/custom_edittext"
+        android:drawableLeft="@drawable/heart"
+        android:drawableTint="@color/primary_dark"
+        android:padding="8dp"
+        android:text="  Favourite Meals"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/planned"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
+        android:id="@+id/planned"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="center"
-        tools:layout_editor_absoluteX="184dp"
-        tools:layout_editor_absoluteY="490dp" />
+        android:background="@drawable/custom_edittext"
+        android:drawableLeft="@drawable/baseline_edit_calendar_24"
+        android:drawableTint="@color/primary_dark"
+        android:padding="8dp"
+        android:text="  Planned Meals"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/logout_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fav" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:id="@+id/logout_btn"
+        style="@style/editText"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="168dp"
-        tools:layout_editor_absoluteY="576dp" />
+        android:fontFamily="@font/sigmar"
+        android:padding="8dp"
+        android:text="Logout"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planned" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

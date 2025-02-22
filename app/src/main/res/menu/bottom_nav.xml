@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/baseline_food_bank_24"/>
+
+    <item
+        android:id="@+id/search"
+        android:title="Shorts"
+        android:icon="@drawable/search"
+        />
+
+    <item
+        android:title=""/>
+
+    <item
+        android:id="@+id/favorite"
+        android:title="Subscriptions"
+        android:icon="@drawable/fav" />
+    <item
+        android:id="@+id/profile"
+        android:title="Library"
+        android:icon="@drawable/account_circle" />
+
+</menu>

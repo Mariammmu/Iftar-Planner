@@ -42,11 +42,11 @@ Button btnSignUpFrag;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnSignUpFrag=view.findViewById(R.id.btnSignupFragment);
+        btnSignUpFrag=view.findViewById(R.id.btnSignIn);
         btnSignUpFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_signinFragment);
             }
         });
 

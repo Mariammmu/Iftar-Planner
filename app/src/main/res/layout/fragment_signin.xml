@@ -28,7 +28,8 @@
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,6 +44,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:paddingBottom="8dp"
+                style="@style/editText"
                 android:text="@string/sign_in"
                 android:textColor="@color/primary_dark"
                 android:textSize="36sp"
@@ -55,16 +57,19 @@
 
             <EditText
                 android:id="@+id/editTextEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
+                android:background="@drawable/custom_edittext"
+                android:paddingTop="8dp"
                 android:drawableStart="@drawable/email"
                 android:drawablePadding="8dp"
                 android:hint="Email"
+                style="@style/editText"
                 android:inputType="textEmailAddress"
                 android:paddingStart="8dp"
-                android:paddingBottom="16dp"
+                android:paddingBottom="8dp"
                 android:textColorHint="#19374F"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/editTextPass"
@@ -75,34 +80,39 @@
 
             <EditText
                 android:id="@+id/editTextPass"
-                android:layout_width="match_parent"
-                android:layout_height="47dp"
+                style="@style/editText"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
+                android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/password"
                 android:drawableEnd="@drawable/eye"
                 android:drawablePadding="8dp"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingStart="8dp"
-                android:paddingBottom="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="8dp"
                 android:textColorHint="#19374F"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/btnSignupFragment"
+                app:layout_constraintBottom_toTopOf="@+id/btnSignIn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
             <Button
-                android:id="@+id/btnSignupFragment"
-                android:layout_width="260dp"
-                android:layout_height="55dp"
+                android:id="@+id/btnSignIn"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:backgroundTint="#19374F"
                 android:text="@string/sign_in"
                 android:textSize="18sp"
+                style="@style/editText"
                 app:layout_constraintBottom_toTopOf="@+id/btnGoogle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -111,8 +121,8 @@
 
             <Button
                 android:id="@+id/btnGoogle"
-                android:layout_width="260dp"
-                android:layout_height="55dp"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:drawableEnd="@drawable/google_icon"
@@ -120,11 +130,12 @@
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                style="@style/editText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSignupFragment" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -141,3 +152,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

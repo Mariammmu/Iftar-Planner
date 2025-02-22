@@ -16,7 +16,7 @@
 
         <item name="android:windowLightStatusBar">true</item>
 
-
     </style>
+
     <style name="Theme.IftarPlanner" parent="Base.Theme.IftarPlanner" />
 </resources>

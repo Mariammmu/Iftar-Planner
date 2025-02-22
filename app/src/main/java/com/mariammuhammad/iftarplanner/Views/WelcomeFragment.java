@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -42,41 +43,17 @@ TextView txtGuest;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnSignUp=view.findViewById(R.id.btnSignUp);
-        btnLogin=view.findViewById(R.id.btnLogin);
-        btnGoogle=view.findViewById(R.id.btnGoogle);
-        txtGuest=view.findViewById(R.id.txtGuest);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_signupFragment);
+        btnSignUp = view.findViewById(R.id.btnSignUp);
+        btnLogin = view.findViewById(R.id.btnLogin);
+        btnGoogle = view.findViewById(R.id.btnGoogle);
+        txtGuest = view.findViewById(R.id.txtGuest);
 
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_signinFragment);
-
-            }
-        });
-
-        btnGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homeFragment);
-
-            }
-        });
-
-        txtGuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_welcomeFragment_to_homeFragment);
-            }
-        });
-
+        btnLogin.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signinFragment));
+        btnGoogle.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_homeFragment));
+        txtGuest.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_homeFragment));
+        btnSignUp.setOnClickListener(v -> navController.navigate(WelcomeFragmentDirections.actionWelcomeFragmentToSignupFragment()));
 
     }
 }
