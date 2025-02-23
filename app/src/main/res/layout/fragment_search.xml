@@ -31,18 +31,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/search"
-            app:startIconTint="@color/primary_dark"
-            >
+            app:startIconTint="@color/primary_dark">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_box"
                 style="@style/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search"
-                android:textColorHint="@color/primary_dark"
                 android:inputType="textAutoComplete"
                 android:paddingStart="40dp"
-            />
+                android:textColorHint="@color/primary_dark" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.chip.ChipGroup
@@ -62,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
+                android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
                 app:chipStrokeWidth="1dp" />
@@ -72,6 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ingredient"
+                android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
                 app:chipStrokeWidth="1dp" />
@@ -82,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Country"
+                android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
                 app:chipStrokeWidth="1dp" />
@@ -109,34 +111,32 @@
         android:id="@+id/noInternet_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        >
+        android:visibility="invisible">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/no_internet_image"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_500sdp"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/noconnect" />
+            app:lottie_rawRes="@raw/wait" />
 
         <TextView
             android:id="@+id/txt"
+            style="@style/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="200dp"
             android:text="No Internet Connection!"
             android:textColor="@color/primary_dark"
             android:textSize="16sp"
-            style="@style/editText"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/_200sdp"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/no_internet_text"
@@ -145,14 +145,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="64dp"
             android:layout_marginVertical="8dp"
+            android:fontFamily="@font/sigmar"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/primary"
-            android:fontFamily="@font/poppins_medium"
             android:text="Check your Internet Connection\n and Try Again."
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/primary_dark"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

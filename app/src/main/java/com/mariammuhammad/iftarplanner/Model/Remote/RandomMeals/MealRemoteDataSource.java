@@ -1,5 +1,8 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals;
 
+import android.util.Log;
+
+import com.mariammuhammad.iftarplanner.Model.DataModel.Ingredient;
 import com.mariammuhammad.iftarplanner.Model.Repo.RootMeal;
 
 import retrofit2.Call;
@@ -26,7 +29,7 @@ public class MealRemoteDataSource {
         return mealRemoteDataSource;
     }
 
-    public void getAllMeals(NetworkCallback networkCallback, String dataType, String filterValue) {
+    public void getAllMeals(RandomNetworkCallback randomNetworkCallback, String dataType, String filterValue) {
         CallMeals callMeals = retrofit.create(CallMeals.class);
         Call<RootMeal> rootMealCall;
         switch (dataType) {
@@ -43,31 +46,33 @@ public class MealRemoteDataSource {
                 rootMealCall = callMeals.getRandomMeal();
                 break;
             default:
-                networkCallback.onFailureResult("Unsupported data type: " + dataType);
+                randomNetworkCallback.onFailureResult("Unsupported data type: " + dataType);
                 return;
         }
 
         rootMealCall.enqueue(new Callback<RootMeal>() {
 
-
             @Override
             public void onResponse(Call<RootMeal> call, Response<RootMeal> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    networkCallback.onSuccessResult(response.body().meals);
+                    Log.i(TAG, "onResponse: random" + response);
+
+                    randomNetworkCallback.onSuccessResult(response.body().getMeals());
 
 
                 } else {
-                    networkCallback.onFailureResult("Failed to fetch products: " + response.message());
+                    Log.i(TAG, "onFailure: random");
+
+                    randomNetworkCallback.onFailureResult("Failed to fetch products: " + response.message());
+
                 }
             }
 
             @Override
             public void onFailure(Call<RootMeal> call, Throwable throwable) {
-                networkCallback.onFailureResult(throwable.getMessage());
-
+                randomNetworkCallback.onFailureResult(throwable.getMessage());
             }
         });
-
     }
 
 

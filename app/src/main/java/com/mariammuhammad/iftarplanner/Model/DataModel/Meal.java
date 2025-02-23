@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "Meal_table")
+@Entity(tableName = "meal_table")
 public class Meal {
     @PrimaryKey
     @NonNull

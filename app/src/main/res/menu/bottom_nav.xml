@@ -4,24 +4,31 @@
     <item
         android:id="@+id/home"
         android:title="Home"
-        android:icon="@drawable/baseline_food_bank_24"/>
-
-    <item
-        android:id="@+id/search"
-        android:title="Shorts"
-        android:icon="@drawable/search"
+        android:icon="@drawable/baseline_food_bank_24"
         />
 
     <item
-        android:title=""/>
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/search"
+
+        />
 
     <item
         android:id="@+id/favorite"
-        android:title="Subscriptions"
-        android:icon="@drawable/fav" />
+        android:title="Favorite"
+        android:icon="@drawable/fav"
+        android:layout_marginTop="-20dp"
+        />
+
+
+    <item
+        android:id="@+id/calendar"
+        android:title="Calendar"
+        android:icon="@drawable/baseline_edit_calendar_24" />
     <item
         android:id="@+id/profile"
-        android:title="Library"
+        android:title="Profile"
         android:icon="@drawable/account_circle" />
 
 </menu>
