@@ -62,12 +62,9 @@ public class SignUpPresenter implements SignUpContract {
     }
 
     private void showSnackBar(String message) {
-        if (view != null) {
-            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
-        } else {
-            Log.e("SignUpPresenter", "View is null, cannot show Snackbar.");
-        }
+        signUpView.showSnackBar(message);
     }
+
 
     @Override
     public void updateUserProfile(String username, String email, String password) {

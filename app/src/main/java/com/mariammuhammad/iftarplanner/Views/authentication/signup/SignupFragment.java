@@ -107,8 +107,8 @@ TextView txtLogin;
 
     }
 
-
-    private void showSnackBar(String message){
+@Override
+    public void showSnackBar(String message){
         Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         int color = ContextCompat.getColor(requireContext(), R.color.primary_dark);

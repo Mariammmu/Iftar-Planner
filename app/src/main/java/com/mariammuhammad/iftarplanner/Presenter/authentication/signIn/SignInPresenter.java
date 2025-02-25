@@ -44,16 +44,21 @@ public class SignInPresenter implements SignInContract {
 //                        sharedPreferences.edit().putString("userName", currentUser.getDisplayName()).apply();
 //                        sharedPreferences.edit().putString("userEmail", currentUser.getEmail()).apply();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("userId", currentUser.getUid());
 
-                        // Handle null display name
                         String userName = (currentUser.getDisplayName() != null) ? currentUser.getDisplayName() : "Unknown";
+                        editor.putString("userId", currentUser.getUid());
                         editor.putString("userName", userName);
                         editor.putString("userEmail", currentUser.getEmail());
                         editor.apply();
                     }
                 })
-                .addOnFailureListener(e -> signInView.failSignIn(e.getMessage()));
+                .addOnFailureListener(e -> {
+                    Log.e("SignInError", "Error signing in: " + e.getMessage());
+                    signInView.failSignIn(e.getMessage());
+
+
+
+                });
     }
 
     private boolean validateInputs(String email, String password) {
