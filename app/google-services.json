@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943735869766",
+    "project_id": "iftar-planner",
+    "storage_bucket": "iftar-planner.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943735869766:android:b893be6a10e604f3ad5547",
+        "android_client_info": {
+          "package_name": "com.mariammuhammad.iftarplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD609SPSeaBe4D_4JeR-wiw6j6nTvf6xaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
