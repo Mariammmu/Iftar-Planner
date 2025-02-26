@@ -1,13 +1,10 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.Countries;
 
-import android.util.Log;
+import com.mariammuhammad.iftarplanner.Model.DTO.RootCountries;
 
-import com.mariammuhammad.iftarplanner.Model.Repo.RootCountries;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CountriesRemoteDataSource {
@@ -18,7 +15,9 @@ public class CountriesRemoteDataSource {
     Retrofit retrofit;
 
     private CountriesRemoteDataSource(){
-        retrofit=new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit= new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build();
+        countriesService = retrofit.create(CountriesService.class);
     }
 
     public static CountriesRemoteDataSource getInstance(){
@@ -29,30 +28,9 @@ public class CountriesRemoteDataSource {
         return countriesRemoteDataSource;
     }
 
-    public void getAllCountries(CountriesNetworkCallback countriesNetworkCallback) {
+    public Single<RootCountries> getAllCountries( ) {
 
-        countriesService  = retrofit.create(CountriesService.class);
-        Call<RootCountries>  callCountries = countriesService.getAllCountries();
-        callCountries.enqueue(new Callback<RootCountries>() {
-            @Override
-            public void onResponse(Call<RootCountries> call, Response<RootCountries> response) {
-                if(response.isSuccessful()){
-                    countriesNetworkCallback.onSuccessfulCountries(response.body().getCountries());
-                    Log.i(TAG, "onResponse: " + response.body().countries.get(0));
-                }
-                else{
-                    countriesNetworkCallback.onFaliureCountries("Failed to fetch Countries: " + response.message());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RootCountries> call, Throwable throwable) {
-
-                countriesNetworkCallback.onFaliureCountries(throwable.getMessage());
-                Log.i(TAG, "onFailure: ");
-            }
-        });
+       return countriesService.getAllCountries();
     }
 
 

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Iftar Planner</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_up">Sign Up</string>
     <string name="login">Login</string>
@@ -13,5 +12,32 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
+    <string name="iftar_planner">Iftar Planner</string>
+    <string name="plan_your_meals">Plan Your Meals</string>
+    <string name="search">Search</string>
+    <string name="no_internet">No Internet Connection!</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="country">Country</string>
+    <string name="category">Category</string>
+    <string name="hello_chef">Hello, my chef</string>
+    <string name="favourite_meals">Favourite Meals</string>
+    <string name="planned_meals">Planned Meals</string>
+    <string name="logout">Log out</string>
+    <string name="meal_name">Meal name</string>
+    <string name="beaf">Beaf</string>
+    <string name="american">American</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="youtube">Youtube</string>
+    <string name="daily_inspiration">Daily Inspiration</string>
+    <string name="more_you_like">More You Might Like...</string>
+    <string name="saved_meals">All Saved Meals</string>
+    <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
+    <string name="menu">Menu</string>
+    <string name="home">Home</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="not_have_account">Don\'t have an account?</string>
+    <string name="default_web_client_id">8tfqo5h3sq240i3n52ousmakh2e5nmp3</string>
 
 </resources>

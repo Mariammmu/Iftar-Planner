@@ -1,14 +1,10 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals;
 
-import android.util.Log;
+import com.mariammuhammad.iftarplanner.Model.DTO.RootMeal;
 
-import com.mariammuhammad.iftarplanner.Model.DataModel.Ingredient;
-import com.mariammuhammad.iftarplanner.Model.Repo.RootMeal;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MealRemoteDataSource {
@@ -17,9 +13,12 @@ public class MealRemoteDataSource {
     private static final String TAG="MealAPI";
 
     Retrofit retrofit;
+    CallMeals callMeals;
 
     public MealRemoteDataSource(){
-        retrofit= new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit= new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build();
+        callMeals = retrofit.create(CallMeals.class);
     }
 
     public static MealRemoteDataSource getInstance(){
@@ -29,50 +28,25 @@ public class MealRemoteDataSource {
         return mealRemoteDataSource;
     }
 
-    public void getAllMeals(RandomNetworkCallback randomNetworkCallback, String dataType, String filterValue) {
-        CallMeals callMeals = retrofit.create(CallMeals.class);
-        Call<RootMeal> rootMealCall;
+    public Single<RootMeal> getAllMeals(String dataType, String filterValue) {
+
         switch (dataType) {
             case "ingredient":
-                rootMealCall = callMeals.getMealsByIngredient(filterValue);
-                break;
+                return callMeals.getMealsByIngredient(filterValue);
             case "category":
-                rootMealCall = callMeals.getMealsByCategory(filterValue);
-                break;
+                return callMeals.getMealsByCategory(filterValue);
             case "area":
-                rootMealCall = callMeals.getMealsByCountry(filterValue);
-                break;
+                return callMeals.getMealsByCountry(filterValue);
             case "random":
-                rootMealCall = callMeals.getRandomMeal();
-                break;
+                return callMeals.getRandomMeal();
             default:
-                randomNetworkCallback.onFailureResult("Unsupported data type: " + dataType);
-                return;
+                return Single.error(new IllegalArgumentException("Unsupported data type: " + dataType));
         }
 
-        rootMealCall.enqueue(new Callback<RootMeal>() {
+    }
 
-            @Override
-            public void onResponse(Call<RootMeal> call, Response<RootMeal> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.i(TAG, "onResponse: random" + response);
-
-                    randomNetworkCallback.onSuccessResult(response.body().getMeals());
-
-
-                } else {
-                    Log.i(TAG, "onFailure: random");
-
-                    randomNetworkCallback.onFailureResult("Failed to fetch products: " + response.message());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RootMeal> call, Throwable throwable) {
-                randomNetworkCallback.onFailureResult(throwable.getMessage());
-            }
-        });
+    public Single<RootMeal> getMealById(int mealId){
+        return callMeals.getMealDetails(mealId);
     }
 
 

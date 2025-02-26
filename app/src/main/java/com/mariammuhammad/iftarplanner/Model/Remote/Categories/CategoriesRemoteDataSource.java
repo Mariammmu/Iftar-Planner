@@ -1,13 +1,10 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.Categories;
 
-import android.util.Log;
+import com.mariammuhammad.iftarplanner.Model.DTO.RootCategories;
 
-import com.mariammuhammad.iftarplanner.Model.Repo.RootCategories;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CategoriesRemoteDataSource {
@@ -16,10 +13,10 @@ public class CategoriesRemoteDataSource {
     private CategoriesService categoriesService;
     private static CategoriesRemoteDataSource categoriesRemoteDataSource = null;
     private String TAG="CategoryNetwork";
+    Retrofit retrofit;
     private CategoriesRemoteDataSource(){
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit= new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build();
         categoriesService = retrofit.create(CategoriesService.class);
     }
 
@@ -31,25 +28,7 @@ public class CategoriesRemoteDataSource {
         return categoriesRemoteDataSource;
     }
 
-    public void getAllCategories(CategoriesNetworkCallback categoriesNetworkCallback) {
-        categoriesService.getAlCategory().enqueue(new Callback<RootCategories>() {
-            @Override
-            public void onResponse(Call<RootCategories> call, Response<RootCategories> response) {
-                if(response.isSuccessful()){
-                    categoriesNetworkCallback.onSuccessResultCategory(response.body().getCategories());
-                    Log.i("RESPONSE", "onResponse: "+response.body().getCategories().get(0));
-
-                }
-                else{
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RootCategories> call, Throwable throwable) {
-                    categoriesNetworkCallback.onFailureResult(throwable.getMessage());
-            }
-
-        });
+    public Single<RootCategories> getAllCategories( ) {
+        return categoriesService.getAlCategory();
     }
 }

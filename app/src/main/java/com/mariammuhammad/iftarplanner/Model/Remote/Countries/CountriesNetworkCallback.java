@@ -1,7 +1,6 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.Countries;
 
-import com.mariammuhammad.iftarplanner.Model.DataModel.Country;
-import com.mariammuhammad.iftarplanner.Model.DataModel.Ingredient;
+import com.mariammuhammad.iftarplanner.Model.DTO.Country;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals;
 
-import com.mariammuhammad.iftarplanner.Model.DataModel.Meal;
+import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 
 import java.util.ArrayList;
 

@@ -1,28 +1,45 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals;
 
-import com.mariammuhammad.iftarplanner.Model.Repo.RootMeal;
+import com.mariammuhammad.iftarplanner.Model.DTO.RootMeal;
 
 
-import retrofit2.Call;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface CallMeals {
 
     @GET("random.php")
-    Call<RootMeal> getRandomMeal();
+    Single<RootMeal> getRandomMeal();
 
-    @GET("search.php")
-    Call<RootMeal> getAllMealsByLetter(@Query("f") String letter);
-
-    @GET("filter.php")
-    Call<RootMeal> getMealsByIngredient(@Query("i") String ingredient);
+        @GET("lookup.php")
+    Single<RootMeal> getMealDetails(@Query("i") int mealId);
+//
 
     @GET("filter.php")
-    Call<RootMeal> getMealsByCountry(@Query("a") String country);
+    Single<RootMeal> getMealsByIngredient(@Query("i") String ingredient);
+
+    @GET("filter.php")
+    Single<RootMeal> getMealsByCountry(@Query("a") String country);
 
 
     @GET("filter.php")
-    Call<RootMeal> getMealsByCategory(@Query("c") String category);
+    Single<RootMeal> getMealsByCategory(@Query("c") String category);
+
+
+
+
+//    @GET("search.php")
+//    Call<RootMeal> getAllMealsByLetter(@Query("f") String letter);
+//    @GET("categories.php")
+//    Single<CategoryDTO> getCategories();
+//
+//    @GET("list.php?a=list")
+//    Single<CountryDTO> getCountry();
+//
+//
+//
+
+
 
 }

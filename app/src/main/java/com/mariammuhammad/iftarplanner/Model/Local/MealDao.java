@@ -4,27 +4,33 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
-import com.mariammuhammad.iftarplanner.Model.DataModel.Meal;
+import com.mariammuhammad.iftarplanner.Model.MealStorage;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import retrofit2.http.Query;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
+//DAO (Data Access Object) is responsible for defining the database operations based on your needs.
+// You should write methods in your DAO that match what you want to do with your data.
 @Dao
+public interface MealDAO {
+    @Query("SELECT * FROM meals_table WHERE is_favourite = 1")
+    Single<List<MealStorage>> getAllFavouriteMeals();
 
-public interface MealDao {
+    @Query("SELECT * FROM meals_table WHERE is_planned = 1")
+    Single<List<MealStorage>> getAllPlannedMeals();
 
-        //@Query("sele* From meal_table")
-       // Observable<ArrayList<Meal>> getAllMeals();
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable insertMeal(MealStorage mealStorage);
 
-//   @Query("SELECT * FROM singleMeal WHERE name LIKE :first " + "LIMIT 1")
-//    Movie findMovieByName(String first);
+    @Delete
+    Completable deleteMeal(MealStorage mealStorage);
 
-        @Insert(onConflict = OnConflictStrategy.IGNORE)
-        void insertAll(Meal meal);
+    @Query("DELETE FROM meals_table")
+    Completable deleteAllMeals();
 
-        @Delete
-        void delete(Meal meal);
-    }
-
+}

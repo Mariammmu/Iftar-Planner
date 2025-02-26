@@ -88,7 +88,7 @@
                 android:layout_marginEnd="80dp"
                 android:text="@string/welcome"
                 android:textAlignment="center"
-                android:textColor="#19374F"
+                android:textColor="@color/primary_dark"
                 android:textSize="36sp"
                 android:drawableStart="@drawable/islamic_lantern"
                 android:drawableEnd="@drawable/islamic_lantern"

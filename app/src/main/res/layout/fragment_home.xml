@@ -81,7 +81,7 @@
             android:drawableEnd="@drawable/islamic_lantern"
             android:drawablePadding="8dp"
             android:fontFamily="@font/sigmar"
-            android:text="Daily Inspiration"
+            android:text="@string/daily_inspiration"
             android:textColor="@color/primary_dark"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/sigmar"
-            android:text="More You Might Like..."
+            android:text="@string/more_you_like"
             android:textColor="@color/primary_dark"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/gl_vertical_start"
@@ -125,6 +125,7 @@
             app:itemIconTint="@color/primary_dark"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_nav" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -48,13 +48,13 @@
                 android:layout_marginEnd="3dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="Save Button"
-                android:src="@drawable/fav"
+                android:src="@drawable/bookmark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Dish Name -->
             <TextView
-                android:id="@+id/tv_dish_name"
+                android:id="@+id/dish_name"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 
             <!-- Calendar Button -->
             <TextView
-                android:id="@+id/tv_dish_recipe"
+                android:id="@+id/dish_recipe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -79,7 +79,7 @@
                 android:textColor="@color/primary_dark"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_dish_name"
+                app:layout_constraintTop_toBottomOf="@id/dish_name"
                 tools:text="Recipe description" />
 
             <ImageButton

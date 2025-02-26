@@ -1,6 +1,6 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.Ingredients;
 
-import com.mariammuhammad.iftarplanner.Model.DataModel.Ingredient;
+import com.mariammuhammad.iftarplanner.Model.DTO.Ingredient;
 
 import java.util.ArrayList;
 

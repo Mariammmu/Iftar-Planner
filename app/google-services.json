@@ -12,7 +12,20 @@
           "package_name": "com.mariammuhammad.iftarplanner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "943735869766-fuuvsr7nj8odmmrmiilsit83krhlushd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mariammuhammad.iftarplanner",
+            "certificate_hash": "8c3addb5fc6bf0e5fac6d45af19d37919c1deb9c"
+          }
+        },
+        {
+          "client_id": "943735869766-8tfqo5h3sq240i3n52ousmakh2e5nmp3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD609SPSeaBe4D_4JeR-wiw6j6nTvf6xaE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943735869766-8tfqo5h3sq240i3n52ousmakh2e5nmp3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

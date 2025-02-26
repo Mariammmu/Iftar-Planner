@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="All Saved Meals"
+        android:text="@string/saved_meals"
         android:drawableStart="@drawable/islamic_lantern"
         android:drawableEnd="@drawable/islamic_lantern"
         android:textColor="@color/primary_dark"

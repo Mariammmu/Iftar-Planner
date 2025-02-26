@@ -1,12 +1,14 @@
 package com.mariammuhammad.iftarplanner.Model.Remote.Ingredients;
 
-import com.mariammuhammad.iftarplanner.Model.Repo.RootIngredients;
+import com.mariammuhammad.iftarplanner.Model.DTO.RootIngredients;
 
-import retrofit2.Call;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 
 public interface IngredientesService {
 
     @GET("list.php?i=list")
-    Call<RootIngredients> getAllIngredients();
+    Single<RootIngredients> getAllIngredients();
+
+
 }

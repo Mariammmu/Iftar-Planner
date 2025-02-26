@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="viewStart"
-            android:text="Menu"
+            android:text="@string/menu"
             android:padding="8dp"
             android:textColor="@color/primary_dark"
             android:layout_marginStart="12dp"
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="@string/home"
             android:textColor="@color/primary_dark"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -80,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorites"
+            android:text="@string/favorites"
             android:textColor="@color/primary_dark"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textColor="@color/primary_dark"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
