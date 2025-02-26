@@ -12,15 +12,15 @@
             <item
                 android:id="@+id/nav_search"
                 android:icon="@drawable/search"
-                android:title="Settings"/>
+                android:title="Search" />
             <item
                 android:id="@+id/nav_calendar"
                 android:icon="@drawable/baseline_edit_calendar_24"
-                android:title="Share"/>
+                android:title="Calendar" />
             <item
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/account_circle"
-                android:title="About Us"/>
+                android:title="Profile" />
         </group>
         <item
             android:title="">

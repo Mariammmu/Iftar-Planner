@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_margin="10dp"
-                android:background="@drawable/baseline_edit_calendar_24"
                 android:padding="8dp"
                 android:paddingStart="12dp"
                 android:paddingTop="8dp"
@@ -58,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="10dp"
-                android:background="@drawable/bookmark"
                 android:padding="8dp"
                 android:src="@drawable/bookmark" />
 

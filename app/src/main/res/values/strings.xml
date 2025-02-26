@@ -39,5 +39,10 @@
     <string name="have_account">Already have an account?</string>
     <string name="not_have_account">Don\'t have an account?</string>
     <string name="default_web_client_id">8tfqo5h3sq240i3n52ousmakh2e5nmp3</string>
+    <string name="invalid_input">Invalid Input</string>
+    <string name="ok">Ok</string>
+    <string name="categories">Categories</string>
+    <string name="countries">Countries</string>
+    <string name="meal">Meal</string>
 
 </resources>

@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<group android:checkableBehavior="single">
-    <item
-        android:id="@+id/home"
-        android:title="Home"
-        android:icon="@drawable/baseline_food_bank_24"
-        />
 
-    <item
-        android:id="@+id/search"
-        android:title="Search"
-        android:icon="@drawable/search"
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/baseline_food_bank_24" />
 
-        />
+        <item
+            android:id="@+id/search"
+            android:title="Search"
+            android:icon="@drawable/search" />
 
-    <item
-        android:id="@+id/favorite"
-        android:title="Favorite"
-        android:icon="@drawable/fav"
-        android:layout_marginTop="-20dp"
-        />
+        <item
+            android:id="@+id/favorite"
+            android:title="Favorite"
+            android:icon="@drawable/fav" />
 
+        <item
+            android:id="@+id/calendar"
+            android:title="Calendar"
+            android:icon="@drawable/baseline_edit_calendar_24" />
 
-    <item
-        android:id="@+id/calendar"
-        android:title="Calendar"
-        android:icon="@drawable/baseline_edit_calendar_24" />
-    <item
-        android:id="@+id/profile"
-        android:title="Profile"
-        android:icon="@drawable/account_circle" />
-</group>
+        <item
+            android:id="@+id/profile"
+            android:title="Profile"
+            android:icon="@drawable/account_circle" />
+    </group>
 </menu>

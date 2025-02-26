@@ -115,8 +115,11 @@ public class WelcomeFragment extends Fragment implements GoogleView {
     }
 
     private void signInWithGoogle() {
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 123);
+        googleSignInClient.revokeAccess().addOnCompleteListener(task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, 123);
+        });
+
     }
 
 

@@ -18,9 +18,25 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mariammuhammad.iftarplanner.Views.HomeFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signinFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.authentication.signin.SigninFragment"
@@ -60,5 +76,34 @@
         <action
             android:id="@+id/action_welcomeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/itemInfoFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.meal_info.ItemInfoFragment"
+        android:label="ItemInfoFragment" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.filter.FilterFragment"
+        android:label="FilterFragment" >
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <argument
+            android:name="FilterType"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -6,8 +6,8 @@
     android:background="@drawable/different_background">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/meal_card"
-        android:layout_width="350dp"
+        android:id="@+id/category_card"
+        android:layout_width="match_parent"
         android:layout_height="210dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp"
@@ -16,28 +16,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_rawRes="@raw/wait" />
 
         <TextView
-            android:id="@+id/title_meal_txt"
+            android:id="@+id/txtCategory"
             style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:ellipsize="end"
+            android:elevation="4dp"
+            android:backgroundTint="@color/divider"
             android:gravity="center"
             android:maxLines="2"
             android:padding="8dp"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_dark"
             android:textSize="14dp" />
 
     </com.google.android.material.card.MaterialCardView>
