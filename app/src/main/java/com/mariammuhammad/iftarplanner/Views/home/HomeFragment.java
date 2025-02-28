@@ -1,5 +1,7 @@
 package com.mariammuhammad.iftarplanner.Views.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,9 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 import com.mariammuhammad.iftarplanner.Model.DTO.Category;
 import com.mariammuhammad.iftarplanner.Model.DTO.Country;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
@@ -32,7 +37,7 @@ import com.mariammuhammad.iftarplanner.R;
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeView, NetworkConnectionListener {
 
    private RecyclerView randomMealRecycler, categoryRecycler, countryRecycler;
     private HomePresenter homePresenter;
@@ -70,53 +75,30 @@ public class HomeFragment extends Fragment implements HomeView {
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
 
-//        NavigationView navigationView = view.findViewById(R.id.navigation_view);
-//        View headerView = navigationView.getHeaderView(0);
-//        TextView userNameTextView = headerView.findViewById(R.id.userName);
-//        TextView userEmailTextView = headerView.findViewById(R.id.userEmail);
-//        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-//        String savedName = sharedPreferences.getString("userName", "");
-//        String savedEmail = sharedPreferences.getString("userEmail", "");
-//        userNameTextView.setText(savedName);
-//        userEmailTextView.setText(savedEmail);
 
 
         randomMealRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         countryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
         categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(), categoryName -> {
             Navigation.findNavController(requireView()).navigate(
                     HomeFragmentDirections.actionHomeFragmentToFilterFragment(categoryName, "category")
             );
         });
         categoryRecycler.setAdapter(categoryAdapter);
+
         Repository repository = Repository.getInstance(MealLocalDataSource.getInstance(requireContext()), MealRemoteDataSource.getInstance(), CategoriesRemoteDataSource.getInstance(), CountriesRemoteDataSource.getInstance(), IngredientsRemoteDataSource.getInstance());
         homePresenter = new HomePresenter(this, repository, requireContext());
-      //  ArrayList<Category> categories;
-        //
+
 
 
         //((MainActivity) requireActivity()).setNetworkStateListener(this);
 
-
-
         loadHomeData();
+
     }
-//        navigationView.setNavigationItemSelectedListener(item -> {
-//            Log.i("TAG", "onViewCreated: " + item);
-//            if (item.getItemId() == R.id.nav_logout) {
-//                homePresenter.logout();
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
-//            return false;
-//        });
-//
-//        menuIcon.setOnClickListener(v -> {
-//            if (drawerLayout != null) {
-//                drawerLayout.openDrawer(GravityCompat.START);
-//            }
-//        });
-//    }
+
 
     private void loadHomeData() {
         homePresenter.getRandomMeals();
@@ -182,6 +164,18 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void onLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onNetworkAvailable() {
+        randomMealRecycler.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onNetworkLost() {
+        randomMealRecycler.setVisibility(View.GONE);
 
     }
 }

@@ -1,6 +1,7 @@
 package com.mariammuhammad.iftarplanner.Views.authentication.signin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,18 +23,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.mariammuhammad.iftarplanner.Presenter.authentication.google.GooglePresenter;
 import com.mariammuhammad.iftarplanner.Presenter.authentication.signIn.SignInPresenter;
 import com.mariammuhammad.iftarplanner.R;
+import com.mariammuhammad.iftarplanner.Views.authentication.google.GoogleView;
 
 
-public class SigninFragment extends Fragment implements SignInView {
+public class SigninFragment extends Fragment implements SignInView, GoogleView {
 
-    Button btnSignin;
+    Button btnSignin, btnGoogle;
     TextView txtSignUp;
     EditText etEmail, etPass;
     SignInPresenter signInPresenter;
     SharedPreferences sharedPreferences;
+
+    GooglePresenter googlePresenter;
+    private GoogleSignInClient googleSignInClient;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -43,6 +55,11 @@ public class SigninFragment extends Fragment implements SignInView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
 
     }
 
@@ -59,6 +76,10 @@ public class SigninFragment extends Fragment implements SignInView {
         btnSignin = view.findViewById(R.id.buttonSignIn);
         etEmail = view.findViewById(R.id.editTextEmail);
         etPass = view.findViewById(R.id.editTextPass);
+        btnGoogle = view.findViewById(R.id.btnGoogle);
+
+        googlePresenter = new GooglePresenter(this, requireContext());
+
 
         txtSignUp = view.findViewById(R.id.txtSignUp);
         signInPresenter = new SignInPresenter(this, requireContext(), view);
@@ -97,10 +118,42 @@ public class SigninFragment extends Fragment implements SignInView {
                 return false;
             }
         });
+        btnGoogle.setOnClickListener(v -> {
+            signInWithGoogle();
+        });
 
     }
 
 
+    private void signInWithGoogle() {
+        googleSignInClient.revokeAccess().addOnCompleteListener(task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, 123);
+        });
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 123) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null && account.getIdToken() != null) {
+                    googlePresenter.signInGoogle(account);
+                } else {
+                    this.successSignInGoogle("Google Sign-In succeeded");
+                }
+            } catch (ApiException e) {
+                this.failSignInGoogle("Google Sign-In failed");
+            }
+        }
+
+
+    }
     @Override
     public void successSignIn() {
 
@@ -113,6 +166,20 @@ public class SigninFragment extends Fragment implements SignInView {
     @Override
     public void failSignIn(String errorMessage) {
         showSnackBar("Sign In Failed: " + errorMessage);
+
+    }
+
+    @Override
+    public void successSignInGoogle(String successfulMessage) {
+        showSnackBar("Login Successfully");
+        Navigation.findNavController(getView()).navigate(R.id.action_signinFragment_to_homeFragment);
+
+    }
+
+    @Override
+    public void failSignInGoogle(String errorMessage) {
+        Log.i("TAG", "failSignInGoogle: ");
+        showSnackBar("Sign In with Google Failed: " + errorMessage);
 
     }
     @Override

@@ -11,7 +11,7 @@
         <item name="backgroundColor">@color/background</item>
         <item name="colorOnBackground">@color/background_on</item>
 
-        <item name ="android:statusBarColor" >?attr/colorPrimaryDark</item>
+        <item name ="android:statusBarColor" >@color/primary_dark</item>
         <item name="android:navigationBarColor">#19374F</item>
 
         <item name="android:windowLightStatusBar">true</item>

@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorite_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/different_background"
-    >
+    android:background="@drawable/different_background">
 
     <!-- Title TextView  tools:context=".AllIngredientsFragment"-->
 
@@ -17,10 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/saved_meals"
         android:drawableStart="@drawable/islamic_lantern"
         android:drawableEnd="@drawable/islamic_lantern"
+        android:gravity="center"
+        android:text="@string/saved_meals"
         android:textColor="@color/primary_dark"
         android:textSize="28sp"
         android:textStyle="bold"

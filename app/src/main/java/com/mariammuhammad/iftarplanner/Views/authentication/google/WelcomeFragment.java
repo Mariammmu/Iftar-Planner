@@ -89,7 +89,7 @@ public class WelcomeFragment extends Fragment implements GoogleView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.navHostFragment);
 
         btnSignUp = view.findViewById(R.id.btnSignUp);
         btnSignIn = view.findViewById(R.id.btnLogin);
@@ -104,7 +104,7 @@ public class WelcomeFragment extends Fragment implements GoogleView {
         btnSignUp.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signupFragment));
 
         txtGuest.setOnClickListener(v -> {
-            sharedPreferences.edit().putString("userId", "guest").apply();
+           // sharedPreferences.edit().putString("userId", "guest").apply();
             navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
         });
 

@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_margin="10dp"
+                android:background="@drawable/baseline_edit_calendar_24"
                 android:padding="8dp"
                 android:paddingStart="12dp"
                 android:paddingTop="8dp"
@@ -52,13 +53,13 @@
                 android:src="@drawable/baseline_edit_calendar_24" />
 
             <ImageButton
-                android:id="@+id/btntnFav"
+                android:id="@+id/btnFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="10dp"
                 android:padding="8dp"
-                android:src="@drawable/bookmark" />
+                android:src="@drawable/fav" />
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -184,7 +185,7 @@
                 android:textSize="14sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingrediant_rec"
+                android:id="@+id/ingrediant_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"

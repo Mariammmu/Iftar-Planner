@@ -77,12 +77,15 @@ public class SignUpPresenter implements SignUpContract {
             user.updateProfile(profileUpdates)
                     .addOnSuccessListener(unused -> {
                         Log.i("SignUpPresenter", "User profile updated successfully.");
-                        signUpView.onSignupSuccess();
+                       // user.reload().addOnSuccessListener(reloaded -> {
+                            signUpView.onSignupSuccess();
+                       // });
                     })
                     .addOnFailureListener(e -> {
                         Log.e("SignUpPresenter", "Profile update failed: " + e.getMessage());
                         signUpView.onSignupFailure(e.getMessage());
                     });
+
         } else {
             Log.e("SignUpPresenter", "User is null, cannot update profile.");
             signUpView.onSignupFailure("User not signed in.");

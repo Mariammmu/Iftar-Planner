@@ -2,11 +2,9 @@ package com.mariammuhammad.iftarplanner.Model.DTO;
 
 public class Country {
         public String strArea;
-    private int imageResourceId;
 
-    public Country(String strArea, int imageResourceId) {
+    public Country(String strArea) {
         this.strArea = strArea;
-        this.imageResourceId = imageResourceId;
     }
 
     public String getStrArea() {
@@ -17,11 +15,5 @@ public class Country {
         this.strArea = strArea;
     }
 
-    public int getImageResourceId() {
-        return imageResourceId;
-    }
 
-    public void setImageResourceId(int imageResourceId) {
-        this.imageResourceId = imageResourceId;
-    }
 }

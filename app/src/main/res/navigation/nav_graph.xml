@@ -83,7 +83,7 @@
         android:label="FavoriteFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.mariammuhammad.iftarplanner.Views.ProfileFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
@@ -94,7 +94,14 @@
     <fragment
         android:id="@+id/itemInfoFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.meal_info.ItemInfoFragment"
-        android:label="ItemInfoFragment" />
+        android:label="ItemInfoFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="mealName"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.filter.FilterFragment"
@@ -106,4 +113,9 @@
             android:name="FilterType"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/planFragmentNav"
+        android:name="com.mariammuhammad.iftarplanner.Views.PlanFragment"
+        android:label="fragment_plan"
+        tools:layout="@layout/fragment_plan" />
 </navigation>
