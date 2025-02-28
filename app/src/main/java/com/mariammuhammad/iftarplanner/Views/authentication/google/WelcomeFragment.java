@@ -104,8 +104,9 @@ public class WelcomeFragment extends Fragment implements GoogleView {
         btnSignUp.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signupFragment));
 
         txtGuest.setOnClickListener(v -> {
-           // sharedPreferences.edit().putString("userId", "guest").apply();
+            sharedPreferences.edit().putString("userId", "guest").apply();
             navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+
         });
 
         btnGoogle.setOnClickListener(v -> {

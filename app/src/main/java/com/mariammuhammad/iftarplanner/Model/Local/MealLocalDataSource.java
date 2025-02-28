@@ -70,12 +70,23 @@ public class MealLocalDataSource {
         myRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("MainActivity", "onDataChange: " + dataSnapshot.getChildren());
+                Log.i("Firebase", "Data fetched: " + dataSnapshot.getValue());
+
+                if (!dataSnapshot.exists()) {
+                    Log.e("Firebase", "No data found at path: " + myRef.child("Users").child(userId));
+                    return;
+                }
+
                 for (DataSnapshot mealSnapshot : dataSnapshot.getChildren()) {
+                    Log.i("Firebase", "Meal Snapshot Key: " + mealSnapshot.getKey());
                     for (DataSnapshot dateSnapshot : mealSnapshot.getChildren()) {
+                        Log.i("Firebase", "Date Snapshot Key: " + dateSnapshot.getKey());
                         MealStorage savedMeals = dateSnapshot.getValue(MealStorage.class);
                         if (savedMeals != null) {
+                            Log.i("Firebase", "Meal fetched: " + savedMeals.toString());
                             mealDAO.insertMeal(savedMeals).subscribeOn(Schedulers.io()).subscribe();
+                        } else {
+                            Log.e("Firebase", "Meal is null for date " + dateSnapshot.getKey());
                         }
                     }
                 }

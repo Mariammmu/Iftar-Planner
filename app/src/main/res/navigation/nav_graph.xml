@@ -88,7 +88,17 @@
         android:id="@+id/profileFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_planFragmentNav"
+            app:destination="@id/planFragmentNav" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.SearchFragment"
