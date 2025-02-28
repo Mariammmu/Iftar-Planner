@@ -1,13 +1,8 @@
 package com.mariammuhammad.iftarplanner.Views;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.pdf.content.PdfPageGotoLinkContent;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,30 +11,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentContainerView;
-import androidx.navigation.ActivityNavigator;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 import com.mariammuhammad.iftarplanner.Presenter.NetworkConnection;
 import com.mariammuhammad.iftarplanner.R;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
@@ -76,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NetworkConnection
             Log.d("NavController", "Current Destination ID: " + destinationId);
                 determineBottomNavVisibility(destinationId);
 
-            if (destinationId == R.id.favorite_fragment || destinationId == R.id.planFragment) {
+            if (destinationId == R.id.favorite_fragment || destinationId == R.id.plan) {
                 lottieAnimationView.setVisibility(View.GONE);
                 fragmentContainerView.setVisibility(View.VISIBLE);
             } else {
@@ -93,7 +77,8 @@ private void determineBottomNavVisibility(int destinationId){
     if (destinationId == R.id.homeFragment ||
             destinationId == R.id.searchFragment ||
             destinationId == R.id.favoriteFragment ||
-            destinationId == R.id.planFragment) {
+            destinationId == R.id.planFragmentNav ||
+            destinationId==R.id.profileFragment) {
         Log.i("TAG", "onCreate: BottomNav");
         bottomNav.setVisibility(View.VISIBLE);
 
@@ -170,6 +155,11 @@ private void changeStatusBarColor(){
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();
+    }
+    public void setNetworkStateListener(NetworkConnectionListener listener) {
+        if (networkConnection != null) {
+            networkConnection.setNetworkListener(listener);
+        }
     }
 
     @Override

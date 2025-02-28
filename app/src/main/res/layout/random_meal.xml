@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/different_background">
 
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/category_card"
         android:layout_width="match_parent"
@@ -13,40 +14,59 @@
         android:background="@drawable/different_background"
         app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
+        android:layout_marginBottom="-30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie"
+
+    <ImageView
+            android:id="@+id/randomWait"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/wait" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/load"
+            android:layout_margin="4dp"
+            />
 
         <TextView
             android:id="@+id/txtCategory"
             style="@style/editText"
-            android:padding="8dp"
-        android:elevation="4dp"
-            android:shadowColor="@color/divider"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4"
+            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
+            android:background="@color/divider"
+            android:elevation="4dp"
             android:ellipsize="end"
-        android:backgroundTint="@color/divider"
             android:gravity="center"
             android:maxLines="2"
+            android:padding="8dp"
+            android:shadowColor="@color/accent"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
             android:textColor="@color/primary_dark"
-            android:textSize="14dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_card" />
+
+        <!--        <TextView-->
+<!--            android:id="@+id/tv_card_item"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginHorizontal="8dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="@string/str_text_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/iv_card_item"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/iv_card_item"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/iv_card_item"-->
+<!--            />-->
 
     </com.google.android.material.card.MaterialCardView>
 

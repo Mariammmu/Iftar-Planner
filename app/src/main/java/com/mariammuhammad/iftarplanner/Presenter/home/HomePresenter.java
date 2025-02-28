@@ -142,6 +142,7 @@ public class HomePresenter implements HomeContract{
     public void getDataFromFirebase() {
         repository.fetchDataFromFirebase();
 
+
     }
 
     private void clearCache() {

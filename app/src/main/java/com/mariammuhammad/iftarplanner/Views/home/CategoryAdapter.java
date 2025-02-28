@@ -45,7 +45,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         Category categoryItems= categories.get(position);
         holder.categoryName.setText(categoryItems.getStrCategory());
         Log.i("TAG", "onBindViewHolder: "+categories.size());
-        Glide.with(context).load(categoryItems.getStrCategoryThumb()).into(holder.categoryImage);
+        Glide.with(context).load(categoryItems.getStrCategoryThumb()).placeholder(R.drawable.load).into(holder.categoryImage);
         holder.itemView.setOnClickListener(v -> {
             onCategoryClickListener.onCategoryClick(categories.get(position).getStrCategory());
         });

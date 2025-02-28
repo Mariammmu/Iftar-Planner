@@ -12,7 +12,7 @@ import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 
 public class NetworkConnection {
     private final ConnectivityManager connectivityManager;
-    private final NetworkConnectionListener networkConnectionListener;
+    private NetworkConnectionListener networkConnectionListener;
     private ConnectivityManager.NetworkCallback networkCallback;
 
     public NetworkConnection(Context context, NetworkConnectionListener listener) {
@@ -62,6 +62,10 @@ public class NetworkConnection {
         } else {
             networkConnectionListener.onNetworkLost();
         }
+    }
+
+    public void setNetworkListener(NetworkConnectionListener listener) {
+        this.networkConnectionListener = listener;
     }
 
 }

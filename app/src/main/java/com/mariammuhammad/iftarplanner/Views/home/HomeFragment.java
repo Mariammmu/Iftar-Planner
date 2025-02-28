@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,7 @@ import com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals.MealRemoteDataSo
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Presenter.home.HomePresenter;
 import com.mariammuhammad.iftarplanner.R;
+import com.mariammuhammad.iftarplanner.Views.MainActivity;
 
 import java.util.ArrayList;
 
@@ -73,13 +75,14 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
         countryRecycler=view.findViewById(R.id.recyclerViewCountries);
         lottieAnimationView = view.findViewById(R.id.no_internet_image);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
-
+        nestedScrollView=view.findViewById(R.id.nestedScroller);
 
 
 
         randomMealRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         countryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        // countryRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(), categoryName -> {
             Navigation.findNavController(requireView()).navigate(
@@ -88,12 +91,14 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
         });
         categoryRecycler.setAdapter(categoryAdapter);
 
+
+
         Repository repository = Repository.getInstance(MealLocalDataSource.getInstance(requireContext()), MealRemoteDataSource.getInstance(), CategoriesRemoteDataSource.getInstance(), CountriesRemoteDataSource.getInstance(), IngredientsRemoteDataSource.getInstance());
         homePresenter = new HomePresenter(this, repository, requireContext());
 
 
 
-        //((MainActivity) requireActivity()).setNetworkStateListener(this);
+        ((MainActivity) requireActivity()).setNetworkStateListener(this);
 
         loadHomeData();
 
@@ -103,7 +108,8 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     private void loadHomeData() {
         homePresenter.getRandomMeals();
         homePresenter.getAllCategories();
-       // homePresenter.getDataFromFirebase();
+        homePresenter.getAllCountries();
+        homePresenter.getDataFromFirebase();
     }
 
 
@@ -138,44 +144,54 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     @Override
     public void showCountries(ArrayList<Country> countries) {
         if (countries != null && !countries.isEmpty()) {
+            Log.d("HomeFragment", "Countries received: " + countries.size());
+
             CountryAdapter countryAdapter = new CountryAdapter(getContext(), countries, countryName -> {
                 Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionHomeFragmentToFilterFragment(countryName, "country"));
             });
+            Log.d("HomeFragment", "Countries received: " + countries.size());
             countryRecycler.setAdapter(countryAdapter);
+            countryAdapter.notifyDataSetChanged();
         } else {
             showError("No countries found");
         }
     }
 
     @Override
-    public void showError(String errorMsg) {
+    public void showError(String errorMessage) {
+        Log.i("TAG", "showError: "+errorMessage);
 
     }
 
     @Override
     public void showLoading() {
-
+        nestedScrollView.setVisibility(View.GONE);
+        lottieAnimationView.setVisibility(View.VISIBLE);
+       // nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_DOWN));
     }
 
     @Override
     public void hideLoading() {
-
+        nestedScrollView.setVisibility(View.VISIBLE);
+        lottieAnimationView.setVisibility(View.GONE);
     }
 
     @Override
     public void onLogoutSuccess() {
+        Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_welcomeFragment);
+
 
     }
 
     @Override
     public void onNetworkAvailable() {
-        randomMealRecycler.setVisibility(View.VISIBLE);
+        loadHomeData();
 
     }
 
     @Override
     public void onNetworkLost() {
-        randomMealRecycler.setVisibility(View.GONE);
+        showError("Network is not available");
 
     }
 }

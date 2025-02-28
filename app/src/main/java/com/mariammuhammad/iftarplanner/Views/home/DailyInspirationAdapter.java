@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class DailyInspirationAdapter extends RecyclerView.Adapter<DailyInspirationAdapter.MyViewHolder> {
-        private static final String TAG = "DailyInspirationAdapter";
+private static final String TAG = "DailyInspirationAdapter";
         Context context;
         ArrayList<Meal> meals;
 
@@ -50,7 +51,7 @@ public class DailyInspirationAdapter extends RecyclerView.Adapter<DailyInspirati
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Meal mealsItem = meals.get(position);
         holder.mealName.setText(mealsItem.strMeal);
-        Glide.with(context).load(mealsItem.strMealThumb).into(holder.mealImage);
+        Glide.with(context).load(mealsItem.strMealThumb).placeholder(R.drawable.load).into(holder.mealImage);
 
         holder.randomIdCard.setOnClickListener(v -> {
             if (sharedPreferences.getString("userId", "guest").equals("guest")) {
@@ -100,14 +101,14 @@ public class DailyInspirationAdapter extends RecyclerView.Adapter<DailyInspirati
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView mealName;
-//            ImageView mealImage;
-            LottieAnimationView mealImage;
+           ImageView mealImage;
+          //  LottieAnimationView mealImage;
             CardView randomIdCard;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 mealName = itemView.findViewById(R.id.txtCategory);
-                mealImage = itemView.findViewById(R.id.lottie);
+                mealImage = itemView.findViewById(R.id.randomWait);
                 randomIdCard = itemView.findViewById(R.id.category_card);
             }
         }

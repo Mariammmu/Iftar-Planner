@@ -16,6 +16,5 @@
     <color name="primary_text">#FFFFFF</color>
     <color name="primary_dark">#19374F</color>
     <color name="icons">#6790BC</color>
-    <color name="divider">#C2BEBE</color>
-
+    <color name="divider">#80CCCCCC</color>
 </resources>

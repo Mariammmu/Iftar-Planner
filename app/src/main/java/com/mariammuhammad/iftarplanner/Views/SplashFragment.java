@@ -88,7 +88,7 @@ public class SplashFragment extends Fragment {
                 } else {
                 navController.navigate(R.id.action_splashFragment_to_welcomeFragment);
             }
-                }, 12000);
+                }, 10000);
 
             }
 

@@ -50,7 +50,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
             holder.countryName.setText(country.getStrArea());
             Glide.with(context)
                     .load(flagUrl)
-                    .into(holder.countryImage);
+                    .placeholder(R.drawable.load).into(holder.countryImage);
         }
         holder.itemView.setOnClickListener(v -> {
             countryClickListener.onCountryClick(countries.get(position).getStrArea());
