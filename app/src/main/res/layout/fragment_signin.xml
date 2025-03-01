@@ -32,8 +32,8 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="386dp"
+            android:layout_width="364dp"
+            android:layout_height="406dp"
             android:padding="16dp">
 
 
@@ -42,8 +42,10 @@
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="14dp"
                 android:text="@string/not_have_account"
+                android:textColor="@color/primary_dark"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,10 +55,11 @@
                 android:id="@+id/btnGoogle"
                 style="@style/editText"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/primary_dark"
                 android:drawableEnd="@drawable/google_icon"
                 android:text="@string/sign_in_google"
                 android:textAlignment="center"
@@ -72,11 +75,11 @@
                 android:id="@+id/buttonSignIn"
                 style="@style/editText"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="#19374F"
+                android:backgroundTint="@color/primary_dark"
                 android:text="@string/sign_in"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/btnGoogle"
@@ -162,9 +165,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginBottom="12dp"
                 android:text="@string/sign_up"
+                android:textColor="@color/primary_dark"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/btnGoogle" />
 

@@ -5,7 +5,7 @@
     <color name="turquoise">#7CA2B2</color>
     <color name="light_turquoise">#7CA3B2</color>
     <color name="mustard">#FBB552</color>
-    <color name="dark_blue">#19374F</color>
+    <color name="light_baby_blue">#6790BC</color>
     <color name="white_moon">#FDFDFD</color>
 
     <color name="background">#FDFDFD</color>
@@ -15,6 +15,6 @@
     <color name="accent">#FDB652</color>
     <color name="primary_text">#FFFFFF</color>
     <color name="primary_dark">#19374F</color>
-    <color name="icons">#6790BC</color>
+    <color name="icons">#19374F</color>
     <color name="divider">#80CCCCCC</color>
 </resources>

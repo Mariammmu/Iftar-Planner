@@ -1,5 +1,6 @@
 package com.mariammuhammad.iftarplanner.Views.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -64,7 +67,7 @@ private static final String TAG = "DailyInspirationAdapter";
 
     public void showDialog(String message) {
         View dialogView = LayoutInflater.from(context).inflate(R.layout.alert_dialog, null);
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context); // Fix context issue
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
         builder.setView(dialogView);
 
         android.app.AlertDialog alertDialog = builder.create();
@@ -72,12 +75,18 @@ private static final String TAG = "DailyInspirationAdapter";
         alertDialog.show();
 
         TextView dialogMessage = dialogView.findViewById(R.id.dialogMessage);
-        Button dialogButton = dialogView.findViewById(R.id.dialogButton);
+        Button dialogOkButton = dialogView.findViewById(R.id.dialogButton);
+        Button dialogSignUpButton = dialogView.findViewById(R.id.dialogSignUpButton);
 
         dialogMessage.setText(message);
-        dialogButton.setOnClickListener(v -> alertDialog.dismiss());
-    }
 
+        dialogOkButton.setOnClickListener(v -> alertDialog.dismiss());
+
+        dialogSignUpButton.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Navigation.findNavController((Activity) context, R.id.navHostFragment)
+                    .navigate(R.id.action_homeFragment_to_signupFragment);        });
+    }
 
     @Override
     public int getItemCount() {

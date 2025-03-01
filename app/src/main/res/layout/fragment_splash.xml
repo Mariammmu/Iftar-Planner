@@ -38,11 +38,12 @@
 
 
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/txtViewIftar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:drawableStart="@drawable/islamic_lantern"
         android:drawableEnd="@drawable/islamic_lantern"
         android:drawablePadding="8dp"
@@ -50,9 +51,9 @@
         android:gravity="center"
         android:text="@string/iftar_planner"
         android:textColor="@color/primary_dark"
-        android:textSize="36sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="@font/sigmar"
         android:gravity="center"
         android:text="@string/plan_your_meals"

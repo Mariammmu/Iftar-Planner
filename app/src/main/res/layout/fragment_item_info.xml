@@ -7,8 +7,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
+        app:strokeColor="@color/accent"
+        app:strokeWidth="2dp"
         android:padding="16dp">
 
         <!-- Calendar and Favorite Buttons in the Same Row -->
@@ -43,6 +45,8 @@
         <!-- Lottie Animation -->
         <FrameLayout
             android:layout_width="match_parent"
+            app:strokeColor="@color/accent"
+            app:strokeWidth="2dp"
             android:layout_height="200dp"
             android:layout_marginTop="8dp">
 
@@ -51,6 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                app:strokeColor="@color/accent"
+                app:strokeWidth="2dp"
                 android:background="@drawable/different_background"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
@@ -68,8 +74,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:orientation="horizontal"
+                android:background="@drawable/different_background"
+
                 android:padding="12dp">
 
                 <!-- Left Side: Meal Name & Category -->
@@ -93,12 +100,12 @@
                         android:id="@+id/category_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Category"
+                        android:text=""
+                        style="@style/editText"
                         android:textColor="@color/accent"
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Right Side: Country Name -->
                 <TextView
                     android:id="@+id/areaNameItem"
                     android:layout_width="wrap_content"
@@ -149,13 +156,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:cardCornerRadius="8dp"
+            app:strokeColor="@color/accent"
+            app:strokeWidth="2dp"
+            android:background="@drawable/different_background"
             app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:background="@color/background"
+                android:background="@drawable/different_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -164,7 +174,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/instructions"
                     android:textSize="16sp"
+                    android:background="@drawable/different_background"
                     style="@style/editText"
+                    app:strokeColor="@color/accent"
+                    app:strokeWidth="2dp"
                     android:textColor="@color/primary_dark"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -184,9 +197,11 @@
 
         <WebView
             android:id="@+id/video"
+            app:strokeColor="@color/accent"
+            app:strokeWidth="2dp"
             android:layout_width="350dp"
             android:layout_height="450dp"
             android:layout_marginTop="8dp"
-            android:background="@color/background" />
+            android:background="@drawable/different_background" />
     </LinearLayout>
 </ScrollView>

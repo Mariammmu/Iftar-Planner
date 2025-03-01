@@ -158,9 +158,8 @@
                 android:layout_width="250dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="8dp"
-
                 android:background="@drawable/custom_edittext"
-                android:backgroundTint="#19374F"
+                android:backgroundTint="@color/primary_dark"
                 android:fontFamily="@font/sigmar"
                 android:text="@string/sign_up"
                 android:textSize="18sp"
@@ -175,11 +174,13 @@
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/have_account"
                 android:textColor="@color/primary_dark"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnSignUpFrag" />
 
@@ -188,13 +189,14 @@
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
                 android:paddingVertical="2dp"
                 android:text="@string/login"
                 android:textColor="@color/primary_dark"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/txthaveAccount"
                 app:layout_constraintTop_toBottomOf="@+id/btnSignUpFrag" />
         </androidx.constraintlayout.widget.ConstraintLayout>

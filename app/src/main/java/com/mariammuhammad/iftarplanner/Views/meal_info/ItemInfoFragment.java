@@ -2,6 +2,8 @@ package com.mariammuhammad.iftarplanner.Views.meal_info;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,6 +30,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.Local.MealLocalDataSource;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
@@ -48,7 +51,6 @@ import java.util.TimeZone;
 
 public class ItemInfoFragment extends Fragment implements MealInfoView {
 
-    ItemInfoFragment binding;
     IngredientsAdapter adapter;
     MealInfoPresenter presenter;
     private LottieAnimationView mealImage;
@@ -139,7 +141,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
                 if (isFavourite) {
                    MealStorage mealStorage = new MealStorage(false, true, meal, "Favourite", userId, meal.idMeal);
                     presenter.deleteMealFromFavourite(mealStorage);
-                   // updateSaveButtonState(false);
+                   updateSaveButtonState(false);
                     isFavourite = false;
                 } else {
                     MealStorage mealStorage = new MealStorage(false, true, meal, "Favourite", userId, meal.idMeal);
@@ -155,7 +157,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         });
 
         imageButtonPlan.setOnClickListener(v -> {
-         //   showDatePicker(meal);
+            showDatePicker(meal);
         });
     }
 
@@ -193,7 +195,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
             imageButtonPlan.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.accent));
         } else {
             imageButtonPlan.setEnabled(true);
-            imageButtonPlan.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primary_light));
+         //   imageButtonPlan.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.));
         }
     }
 
@@ -208,16 +210,19 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
 
     @Override
     public void showSuccessMessage(String message) {
+        showSnackBar(message);
 
     }
 
     @Override
     public void deleteMealFromFavourite(MealStorage mealStorage) {
+        presenter.deleteMealFromFavourite(mealStorage);
 
     }
 
     @Override
     public void showError(String message) {
+        Log.e("ItemInfoFragment", "Error: " + message);
 
     }
 
@@ -276,7 +281,6 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         }
     }
 
-    // Helper method to format the date
     private String formatDate(String inputDate) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); // Adjust input format if needed
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()); // Desired output format
@@ -286,10 +290,19 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
             return outputFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return inputDate; // Return original date if parsing fails
+            return inputDate;
         }
     }
 
+    private void showSnackBar(String message) {
+        Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        int color = ContextCompat.getColor(requireContext(), R.color.primary_dark);
+        snackbarView.setBackgroundTintList(ColorStateList.valueOf(color));
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
+    }
 
 
 }
