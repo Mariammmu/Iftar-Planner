@@ -33,6 +33,7 @@ public class FilterFragment extends Fragment implements FilteringView{
     private RecyclerView mealRecyclerView;
     private FilterAdapter filterAdapter;
 
+    FilterPresenter filterPresenter;
     LottieAnimationView lottieAnimationView;
 
     public FilterFragment() {
@@ -56,17 +57,28 @@ public class FilterFragment extends Fragment implements FilteringView{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lottieAnimationView=view.findViewById(R.id.waitingAnimation);
+        lottieAnimationView = view.findViewById(R.id.waitingAnimation);
 
-        mealRecyclerView= view.findViewById(R.id.mealFilteringRecyclerView);
-        mealRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(),2));
+        mealRecyclerView = view.findViewById(R.id.mealFilteringRecyclerView);
+        mealRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-        Repository repository = Repository.getInstance(MealLocalDataSource.getInstance(requireContext()), MealRemoteDataSource.getInstance(), CategoriesRemoteDataSource.getInstance(), CountriesRemoteDataSource.getInstance(), IngredientsRemoteDataSource.getInstance());
-        FilterPresenter filterPresenter=new FilterPresenter(this,repository);
-        FilterFragmentArgs args= FilterFragmentArgs.fromBundle(getArguments());
+        Repository repository = Repository.getInstance(
+                MealLocalDataSource.getInstance(requireContext()),
+                MealRemoteDataSource.getInstance(),
+                CategoriesRemoteDataSource.getInstance(),
+                CountriesRemoteDataSource.getInstance(),
+                IngredientsRemoteDataSource.getInstance()
+        );
+         filterPresenter = new FilterPresenter(this, repository);
+        FilterFragmentArgs args = FilterFragmentArgs.fromBundle(getArguments());
 
-        String id= args.getMealId();
-        String type=args.getType();
+        //String id = args.getMealId();
+        //String type = args.getType();
+        loadMeals(args.getType(), args.getMealId());
+
+
+    }
+    private void loadMeals(String type, String id) {
 
         switch (type){
             case "category":
@@ -82,21 +94,16 @@ public class FilterFragment extends Fragment implements FilteringView{
                 Log.e("TAG", "Invalid type: " + type);
         }
 
-
     }
 
-    @Override
-    public void showMealsByCategory(ArrayList<Meal> meals) {
+    private void showMeals(ArrayList<Meal> meals) {
         if (meals == null || meals.isEmpty()) {
             showError("Sorry, no meals found");
-        } else {
-            filterAdapter = new FilterAdapter(requireContext(), meals,meal -> navigateToItemInfo(meal));// this::navigateToItemInfo);
-            mealRecyclerView.setAdapter(filterAdapter);
-            filterAdapter.notifyDataSetChanged();
-
+            return;
         }
+        filterAdapter = new FilterAdapter(requireContext(), meals, meal -> navigateToItemInfo(meal));// this::navigateToItemInfo);
+        mealRecyclerView.setAdapter(filterAdapter);
     }
-
 
     private void navigateToItemInfo(int mealId) {
         NavController navController= Navigation.findNavController(requireView());
@@ -106,27 +113,25 @@ public class FilterFragment extends Fragment implements FilteringView{
 
         navController.navigate(action);
     }
+    @Override
+    public void showMealsByCategory(ArrayList<Meal> meals) {
+        showMeals(meals);
+
+    }
+
+
+
 
     @Override
     public void showMealsByCountry(ArrayList<Meal> meals) {
-    if(meals!=null&&!meals.isEmpty()){
-        filterAdapter = new FilterAdapter(requireContext(), meals,meal -> navigateToItemInfo(meal));
-        mealRecyclerView.setAdapter(filterAdapter);
-    }else{
-        showError("Sorry, no meals found");
+        showMeals(meals);
 
-    }
     }
 
     @Override
     public void showMealsByIngredient(ArrayList<Meal> meals) {
-        if(meals!=null&&!meals.isEmpty()){
-            filterAdapter = new FilterAdapter(requireContext(), meals,meal -> navigateToItemInfo(meal));
-            mealRecyclerView.setAdapter(filterAdapter);
-        }else {
-            showError("Sorry, no meals found");
+        showMeals(meals);
 
-        }
     }
 
     @Override

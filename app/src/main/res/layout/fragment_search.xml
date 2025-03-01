@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.SearchFragment"
+    tools:context=".Views.search.SearchFragment"
     android:background="@drawable/different_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/search"
+            app:startIconDrawable="@drawable/search_not_found"
             app:startIconTint="@color/primary_dark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +91,7 @@
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_rec_default"
+            android:id="@+id/search_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -104,6 +104,32 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <ImageView
+            android:id="@+id/searchImg"
+            android:layout_width="400dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="128dp"
+            android:src="@drawable/sad"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.407"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+
+        <TextView
+            android:id="@+id/emptySearch"
+            style="@style/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_search_found"
+            android:textAlignment="center"
+            android:textColor="@color/primary_dark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchImg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -111,7 +137,7 @@
         android:id="@+id/noInternet_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/no_internet_image"

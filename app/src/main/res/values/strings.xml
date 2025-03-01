@@ -47,5 +47,6 @@
     <string name="ingredients_list">Ingredients List:</string>
     <string name="country_name">Country Name</string>
     <string name="watch_video_now">Watch Video Now!</string>
+    <string name="no_search_found">No search found</string>
 
 </resources>

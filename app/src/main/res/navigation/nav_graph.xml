@@ -104,9 +104,13 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mariammuhammad.iftarplanner.Views.SearchFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemInfoFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.meal_info.ItemInfoFragment"

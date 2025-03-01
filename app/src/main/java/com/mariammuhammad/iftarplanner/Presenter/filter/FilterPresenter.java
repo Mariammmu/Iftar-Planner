@@ -65,4 +65,6 @@ public class FilterPresenter implements FilterContract{
 
         compositeDisposable.add(disposable);
     }
+
+
 }
