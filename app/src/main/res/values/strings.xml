@@ -48,5 +48,6 @@
     <string name="country_name">Country Name</string>
     <string name="watch_video_now">Watch Video Now!</string>
     <string name="no_search_found">No search found</string>
+    <string name="remove">Remove from Favorite</string>
 
 </resources>

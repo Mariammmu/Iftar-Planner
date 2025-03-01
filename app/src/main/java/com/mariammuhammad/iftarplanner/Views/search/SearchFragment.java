@@ -28,6 +28,7 @@ import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 import com.mariammuhammad.iftarplanner.Model.DTO.Category;
 import com.mariammuhammad.iftarplanner.Model.DTO.Country;
 import com.mariammuhammad.iftarplanner.Model.DTO.Ingredient;
+import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.Local.MealLocalDataSource;
 import com.mariammuhammad.iftarplanner.Model.Remote.Categories.CategoriesRemoteDataSource;
 import com.mariammuhammad.iftarplanner.Model.Remote.Countries.CountriesRemoteDataSource;
@@ -144,6 +145,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
         presenter.getIngredients();
         presenter.getCategories();
         presenter.getCountries();
+        presenter.getMeal();
     }
 
     private void setupChipListeners() {
@@ -211,6 +213,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
                 matchesQuery = ((Category) item).getStrCategory().toLowerCase().contains(query);
             } else if (item instanceof Country && isCountry) {
                 matchesQuery = ((Country) item).getStrArea().toLowerCase().contains(query);
+            } else if(item instanceof Meal){
+                matchesQuery=((Meal) item).strMeal.toLowerCase().contains(query);
             }
 
             if (matchesQuery) {
@@ -270,6 +274,13 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
         navController.navigate(action);
     }
 
+
+    @Override
+    public void showMeals(ArrayList<Meal> meals) {
+        allItems.clear();
+        allItems.addAll(meals);
+        filterData(searchEditText.getText().toString());
+    }
 
     @Override
     public void ShowIngredients(ArrayList<Ingredient> ingredients) {

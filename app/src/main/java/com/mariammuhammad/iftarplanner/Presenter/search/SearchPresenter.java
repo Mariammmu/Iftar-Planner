@@ -60,6 +60,17 @@ public class SearchPresenter implements SearchContract {
                 );
     }
 
+    public void getMeal(){
+        repository.getMeals().
+                map(item-> item.getMeals())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item->searchView.showMeals(item),
+                        error->searchView.showError(error.getMessage())
+                );
+    }
+
 
 
 }

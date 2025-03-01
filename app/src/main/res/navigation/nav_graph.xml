@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.mariammuhammad.iftarplanner.Views.FavoriteFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.favorite.FavoriteFragment"
         android:label="FavoriteFragment" />
     <fragment
         android:id="@+id/profileFragment"

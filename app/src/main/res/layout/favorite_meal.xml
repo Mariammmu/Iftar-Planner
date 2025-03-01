@@ -70,12 +70,13 @@
             <!-- Recipe -->
 
             <!-- Calendar Button -->
+
             <TextView
                 android:id="@+id/dish_recipe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
                 android:textColor="@color/primary_dark"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
