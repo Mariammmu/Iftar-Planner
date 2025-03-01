@@ -60,15 +60,14 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientName, measurementName;
 
-        CardView card;
+
         ImageView ingredientImage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            ingredientName = itemView.findViewById(R.id.ingredient_name);
-            ingredientImage = itemView.findViewById(R.id.ingredient_image);
+            ingredientName = itemView.findViewById(R.id.ingredientText);
+            ingredientImage = itemView.findViewById(R.id.ingredientImage);
             measurementName = itemView.findViewById(R.id.measurement);
-            card = itemView.findViewById(R.id.ingredient_card);
         }
     }
 

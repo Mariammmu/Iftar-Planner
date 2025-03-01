@@ -109,11 +109,23 @@
         android:name="com.mariammuhammad.iftarplanner.Views.meal_info.ItemInfoFragment"
         android:label="ItemInfoFragment" >
         <argument
-            android:name="id"
+            android:name="mealId"
             app:argType="integer" />
+
         <argument
-            android:name="mealName"
-            app:argType="string" />
+            android:name="isFavourite"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+        <argument
+            android:name="isPlanned"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="randomMeal"
+            app:argType="com.mariammuhammad.iftarplanner.Model.DTO.Meal"
+            app:nullable="false" />
+
     </fragment>
     <fragment
         android:id="@+id/filterFragment"

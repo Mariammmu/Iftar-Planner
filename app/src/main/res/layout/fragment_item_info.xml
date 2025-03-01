@@ -1,255 +1,192 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@drawable/different_background"
+    android:fillViewport="true">
 
-
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/different_background"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <!-- Calendar and Favorite Buttons in the Same Row -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:contentScrim="@color/primary_dark"
-            app:expandedTitleMarginEnd="72dp"
-            app:expandedTitleMarginStart="16dp"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
-
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_rawRes="@raw/wait" />
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <ImageButton
-                android:id="@+id/btn_calenar"
+                android:id="@+id/btn_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_margin="10dp"
-                android:background="@drawable/baseline_edit_calendar_24"
+                android:background="@null"
                 android:padding="8dp"
-                android:paddingStart="12dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="4dp"
-                android:paddingBottom="8dp"
                 android:src="@drawable/baseline_edit_calendar_24" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/btnFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="10dp"
                 android:padding="8dp"
+                android:background="@null"
                 android:src="@drawable/fav" />
+        </LinearLayout>
 
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        <!-- Lottie Animation -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:background="@drawable/different_background">
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieWait"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/different_background"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/wait" />
+        </FrameLayout>
+
+        <!-- Meal Info Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp">
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="12dp">
 
+                <!-- Left Side: Meal Name & Category -->
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/meal_name"
-                        style="@style/editText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
                         android:text="@string/meal_name"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/meal_icon" />
-
-
-                            <TextView
-                                android:id="@+id/category_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/editText"
-                                android:maxEms="10"
-                                android:maxLines="2"
-                                android:paddingStart="5dp"
-                                android:paddingTop="10dp"
-                                android:paddingBottom="10dp"
-                                android:text="@string/beaf"
-                                android:textSize="11sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-<!--                            <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                                android:id="@+id/flag"-->
-<!--                                android:layout_width="24dp"-->
-<!--                                android:layout_height="24dp"-->
-<!--                                android:src="@drawable/american" />-->
-
-
-                            <TextView
-                                android:id="@+id/areaName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/editText"
-                                android:maxEms="10"
-                                android:maxLines="1"
-                                android:paddingStart="5dp"
-                                android:paddingTop="10dp"
-                                android:paddingBottom="10dp"
-                                android:text="@string/american"
-                                android:textSize="10sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/editText"
-                android:paddingStart="10dp"
-                android:text="@string/ingredients"
-                android:textColor="@color/primary_dark"
-                android:textSize="14sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingrediant_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-               />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/editText"
-                android:paddingStart="10dp"
-                android:text="@string/instructions"
-                android:textColor="@color/primary_dark"
-                android:textSize="14sp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="5dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                android:background="@drawable/different_background">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/instructions_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         style="@style/editText"
-                        android:background="@drawable/different_background"
-                        android:paddingStart="5dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:textSize="10sp"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/category_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:textColor="@color/accent"
+                        android:textSize="16sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <TextView
+                <!-- Right Side: Country Name -->
+                <TextView
+                    android:id="@+id/areaNameItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    style="@style/editText"
+                    android:text="@string/country_name"
+                    android:textColor="@color/primary_dark"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Ingredients Section -->
+        <TextView
+            android:id="@+id/ingredientsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients_list"
+            style="@style/editText"
+            android:textColor="@color/primary_dark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredient_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <!-- Instructions Label Outside Card -->
+        <TextView
+            android:id="@+id/mealInstructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/instructions"
+            android:textSize="18sp"
+            style="@style/editText"
+            android:background="@drawable/different_background"
+            android:textColor="@color/primary_dark"
+            android:textStyle="bold|italic"
+            android:layout_marginTop="16dp" />
+
+        <!-- Instructions Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/editText"
-                android:paddingStart="10dp"
-                android:text="@string/youtube"
-                android:textColor="@color/primary_dark"
-                android:textSize="14sp" />
+                android:padding="16dp"
+                android:background="@color/background"
+                android:orientation="vertical">
 
-            <WebView
-                android:id="@+id/video"
-                android:layout_width="400dp"
-                android:layout_height="300dp"
-                android:layout_marginBottom="10dp"
-                android:padding="10dp" />
+                <TextView
+                    android:id="@+id/instructions_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/instructions"
+                    android:textSize="16sp"
+                    style="@style/editText"
+                    android:textColor="@color/primary_dark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+        <!-- Watch Video Section -->
+        <TextView
+            android:id="@+id/watchVideoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watch_video_now"
+            android:textSize="20sp"
+            style="@style/editText"
+            android:textColor="@color/primary_dark"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
 
-
-    </androidx.core.widget.NestedScrollView>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <WebView
+            android:id="@+id/video"
+            android:layout_width="350dp"
+            android:layout_height="450dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/background" />
+    </LinearLayout>
+</ScrollView>

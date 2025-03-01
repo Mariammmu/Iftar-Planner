@@ -85,10 +85,16 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
         // countryRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(), categoryName -> {
-            Navigation.findNavController(requireView()).navigate(
-                    HomeFragmentDirections.actionHomeFragmentToFilterFragment(categoryName, "category")
-            );
+            HomeFragmentDirections.ActionHomeFragmentToFilterFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToFilterFragment(categoryName, "category");
+
+            Navigation.findNavController(requireView()).navigate(action);
         });
+
+        categoryRecycler.setAdapter(categoryAdapter);
+
+
+
         categoryRecycler.setAdapter(categoryAdapter);
 
 
@@ -120,15 +126,19 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
             randomMealRecycler.setAdapter(dailyInspirationAdapter);
             dailyInspirationAdapter.setOnItemClickListener(meal ->
 
-                    Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_itemInfoFragment));
-                //    navigateToMealDetails(Integer.parseInt(meal.getIdMeal()), meal));
+//                    Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_itemInfoFragment));
+                    navigateToMealDetails(Integer.parseInt(meal.idMeal), meal));
 
         } else {
             showError("No meals found");
         }
     }
 
-
+    private void navigateToMealDetails(int mealId, Meal meal){
+        if(getView()!=null){
+            Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionHomeFragmentToItemInfoFragment(mealId,meal));
+        }
+    }
 
     public void showCategories(ArrayList<Category> categories) {
         if (categories != null && !categories.isEmpty()) {
@@ -147,7 +157,8 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
             Log.d("HomeFragment", "Countries received: " + countries.size());
 
             CountryAdapter countryAdapter = new CountryAdapter(getContext(), countries, countryName -> {
-                Navigation.findNavController(getView()).navigate(HomeFragmentDirections.actionHomeFragmentToFilterFragment(countryName, "country"));
+             HomeFragmentDirections.ActionHomeFragmentToFilterFragment action= HomeFragmentDirections.actionHomeFragmentToFilterFragment(countryName, "country");
+                Navigation.findNavController(getView()).navigate(action);
             });
             Log.d("HomeFragment", "Countries received: " + countries.size());
             countryRecycler.setAdapter(countryAdapter);

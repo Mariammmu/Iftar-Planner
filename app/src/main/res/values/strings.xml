@@ -44,5 +44,8 @@
     <string name="categories">Categories</string>
     <string name="countries">Countries</string>
     <string name="meal">Meal</string>
+    <string name="ingredients_list">Ingredients List:</string>
+    <string name="country_name">Country Name</string>
+    <string name="watch_video_now">Watch Video Now!</string>
 
 </resources>

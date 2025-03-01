@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Meal {
+public class Meal implements Serializable{
+    private static final long serialVersionUID = 1L; // Optional but recommended
+
     public String idMeal;
     public String strMeal;
     public String strCategory;
