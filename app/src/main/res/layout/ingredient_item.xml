@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="Measurement"
+            android:text=""
             android:textSize="12sp"
             android:textColor="@color/primary_dark"
             style="@style/editText" />

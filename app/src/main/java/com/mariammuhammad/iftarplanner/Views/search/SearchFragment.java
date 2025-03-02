@@ -82,6 +82,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -133,6 +134,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
         tvemptySearch.setVisibility(View.GONE);
         noSearchImage.setVisibility(View.GONE);
 
+
         fetchAllData();
         setupChipListeners();
         setupSearchObservable();
@@ -142,10 +144,14 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     private void fetchAllData() {
         allItems.clear();
         filteredItems.clear();
-        presenter.getIngredients();
-        presenter.getCategories();
-        presenter.getCountries();
-        presenter.getMeal();
+
+        if (isCategory) {
+            presenter.getCategories();
+        } else if (isIngredient) {
+            presenter.getIngredients();
+        } else if (isCountry) {
+            presenter.getCountries();
+        }
     }
 
     private void setupChipListeners() {
@@ -201,6 +207,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     private void filterData(String query) {
         query = query.toLowerCase();
         filteredItems.clear();
+        Log.d("SearchFragment", "Filtering for query: " + query);
+        Log.d("SearchFragment", "Current filter: " + (isCategory ? "Category" : isIngredient ? "Ingredient" : "Country"));
 
         HashSet<Object> uniqueItems = new HashSet<>(); //3ashan prevent duplicate data
 
@@ -321,7 +329,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable.clear();
+        presenter.clearDisposables();
     }
 }
 

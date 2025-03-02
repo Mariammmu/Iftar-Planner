@@ -39,7 +39,7 @@ Button btnSignin;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnSignin=view.findViewById(R.id.btnSignIn);
+        btnSignin=view.findViewById(R.id.buttonSignIn);
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

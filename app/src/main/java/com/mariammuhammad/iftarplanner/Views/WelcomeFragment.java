@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.mariammuhammad.iftarplanner.R;
+import com.mariammuhammad.iftarplanner.Views.authentication.google.WelcomeFragmentDirections;
 
 
 public class WelcomeFragment extends Fragment {
@@ -43,7 +44,7 @@ TextView txtGuest;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.main);
 
         btnSignUp = view.findViewById(R.id.btnSignUp);
         btnLogin = view.findViewById(R.id.btnLogin);
