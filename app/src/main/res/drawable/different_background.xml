@@ -9,6 +9,9 @@
             android:endColor="@color/turquoise"
             android:type="linear"
              />
+            <stroke
+                android:width="3dp"
+                android:color="@color/accent"/>
         </shape>
     </item>
 </layer-list>

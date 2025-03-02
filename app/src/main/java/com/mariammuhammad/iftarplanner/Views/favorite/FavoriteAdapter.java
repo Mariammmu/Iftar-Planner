@@ -24,6 +24,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     private final List<MealStorage> favoriteMeals;
     RemoveListener removeListener;
 
+
     public FavoriteAdapter(Context context, List<MealStorage> favoriteMeals, RemoveListener removeListener) {
         this.context = context;
         this.favoriteMeals = favoriteMeals;

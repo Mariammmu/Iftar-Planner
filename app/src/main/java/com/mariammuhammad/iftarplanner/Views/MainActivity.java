@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NetworkConnection
             Log.d("NavController", "Current Destination ID: " + destinationId);
                 determineBottomNavVisibility(destinationId);
 
-            if (destinationId == R.id.favorite_fragment || destinationId == R.id.plan) {
+            if (destinationId == R.id.favorite_fragment || destinationId == R.id.scrollerPlan) {
                 lottieAnimationView.setVisibility(View.GONE);
                 fragmentContainerView.setVisibility(View.VISIBLE);
             } else {

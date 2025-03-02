@@ -116,4 +116,6 @@ public class FavoriteFragment extends Fragment implements FavoriteView, RemoveLi
         snackbar.show();
     }
 
+
+
     }

@@ -156,7 +156,7 @@
     </fragment>
     <fragment
         android:id="@+id/planFragmentNav"
-        android:name="com.mariammuhammad.iftarplanner.Views.PlanFragment"
+        android:name="com.mariammuhammad.iftarplanner.Views.plan.PlanFragment"
         android:label="fragment_plan"
         tools:layout="@layout/fragment_plan" />
 </navigation>
