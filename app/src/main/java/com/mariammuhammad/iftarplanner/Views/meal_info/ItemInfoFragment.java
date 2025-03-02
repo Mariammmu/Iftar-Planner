@@ -54,7 +54,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
     IngredientsAdapter adapter;
     MealInfoPresenter presenter;
     private LottieAnimationView mealImage;
-    private TextView mealName, steps, mealCountry;
+    private TextView mealName, steps, mealCountry, mealCategory;
     private WebView videoWebView;
     private RecyclerView ingredientsRecycler;
     private SharedPreferences sharedPreferences;
@@ -87,6 +87,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         mealImage = view.findViewById(R.id.lottieWait);
         mealName = view.findViewById(R.id.meal_name);
         mealCountry = view.findViewById(R.id.areaNameItem);
+        mealCategory=view.findViewById(R.id.category_name);
         steps = view.findViewById(R.id.instructions_txt);
         videoWebView = view.findViewById(R.id.video);
         imageButtonFavourite = view.findViewById(R.id.btnFav);
@@ -127,6 +128,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         Glide.with(getContext()).load(meal.strMealThumb).placeholder(R.drawable.load).into(mealImage);
         mealName.setText(meal.strMeal);
         mealCountry.setText(meal.strArea);
+        mealCategory.setText(meal.strCategory);
         steps.setText(meal.strInstructions);
         IngredientsAdapter adapter = new IngredientsAdapter(getContext(), meal.getIngredients(), meal.getMeasurements());
         ingredientsRecycler.setAdapter(adapter);

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.R;
+import com.mariammuhammad.iftarplanner.Views.plan.SpecificMealListener;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -23,6 +24,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     private final Context context;
     private final List<MealStorage> favoriteMeals;
     RemoveListener removeListener;
+
+    SpecificMealListener specificMealListener;
 
 
     public FavoriteAdapter(Context context, List<MealStorage> favoriteMeals, RemoveListener removeListener) {
@@ -55,11 +58,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
                 removeListener.onMealDelete(mealStorage);
             }
         });
-//        holder.itemView.setOnClickListener(v -> {
-//            if (onFavouriteMealClickListener != null) {
-//                onFavouriteMealClickListener.onMealClick(Integer.parseInt(meal.idMeal), meal);
-//            }
-//        });
+        holder.itemView.setOnClickListener(v -> {
+            if (specificMealListener != null) {
+                specificMealListener.onMealClick(Integer.parseInt(meal.idMeal), meal);
+            }
+        });
 
     }
 

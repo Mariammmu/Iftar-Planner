@@ -86,7 +86,11 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.favorite.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.mariammuhammad.iftarplanner.Views.profile.ProfileFragment"

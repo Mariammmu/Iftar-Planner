@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.Local.MealLocalDataSource;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.Model.Remote.Categories.CategoriesRemoteDataSource;
@@ -27,10 +30,11 @@ import com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals.MealRemoteDataSo
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Presenter.favorite.FavoritePresenter;
 import com.mariammuhammad.iftarplanner.R;
+import com.mariammuhammad.iftarplanner.Views.plan.SpecificMealListener;
 
 import java.util.List;
 
-public class FavoriteFragment extends Fragment implements FavoriteView, RemoveListener{
+public class FavoriteFragment extends Fragment implements FavoriteView, RemoveListener, SpecificMealListener {
     RecyclerView favoriteRecyclerView;
     private FavoritePresenter favoritePresenter;
 
@@ -117,5 +121,12 @@ public class FavoriteFragment extends Fragment implements FavoriteView, RemoveLi
     }
 
 
+    @Override
+    public void onMealClick(int id, Meal meal) {
+        NavController navController = Navigation.findNavController(requireView());
+        FavoriteFragmentDirections.ActionFavoriteFragmentToItemInfoFragment action=
+                FavoriteFragmentDirections.actionFavoriteFragmentToItemInfoFragment(id,meal);
+        navController.navigate(action);
 
     }
+}
