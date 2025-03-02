@@ -204,7 +204,6 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     public void onNetworkLost() {
         showError("Network is not available");
         hideLoading();
-       // lottieAnimationView.setVisibility(View.VISIBLE);
 
     }
 }

@@ -61,6 +61,7 @@ public class SigninFragment extends Fragment implements SignInView, GoogleView {
         googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
 
+
     }
 
     @Override
@@ -78,7 +79,6 @@ public class SigninFragment extends Fragment implements SignInView, GoogleView {
         etPass = view.findViewById(R.id.editTextPass);
         btnGoogle = view.findViewById(R.id.btnGoogle);
 
-        googlePresenter = new GooglePresenter(this, requireContext());
 
 
         txtSignUp = view.findViewById(R.id.txtSignUp);
@@ -143,7 +143,7 @@ public class SigninFragment extends Fragment implements SignInView, GoogleView {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if (account != null && account.getIdToken() != null) {
-                    googlePresenter.signInGoogle(account);
+                    googlePresenter.signInWithGoogle();
                 } else {
                     this.successSignInGoogle("Google Sign-In succeeded");
                 }
@@ -182,6 +182,12 @@ public class SigninFragment extends Fragment implements SignInView, GoogleView {
         showSnackBar("Sign In with Google Failed: " + errorMessage);
 
     }
+
+    @Override
+    public void onGuestLoginSuccess() {
+
+    }
+
     @Override
 
     public void showSnackBar(String message) {

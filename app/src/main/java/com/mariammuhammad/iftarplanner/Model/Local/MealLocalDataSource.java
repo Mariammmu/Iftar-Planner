@@ -16,6 +16,7 @@ import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -67,11 +68,14 @@ public class MealLocalDataSource {
 
     public void fetchDataFromFirebase() {
         String userId = sharedPreferences.getString("userId", null);
+        if (userId == null) {
+            Log.e("Firebase", "User ID is null, unable to fetch data.");
+            return;
+        }
+
         myRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("Firebase", "Data fetched: " + dataSnapshot.getValue());
-
                 if (!dataSnapshot.exists()) {
                     Log.e("Firebase", "No data found at path: " + myRef.child("Users").child(userId));
                     return;
@@ -84,7 +88,13 @@ public class MealLocalDataSource {
                         MealStorage savedMeals = dateSnapshot.getValue(MealStorage.class);
                         if (savedMeals != null) {
                             Log.i("Firebase", "Meal fetched: " + savedMeals.toString());
-                            mealDAO.insertMeal(savedMeals).subscribeOn(Schedulers.io()).subscribe();
+                            mealDAO.insertMeal(savedMeals)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread()) // Ensure UI updates on the main thread
+                                    .subscribe(
+                                            () -> Log.i("Firebase", "Meal inserted successfully."),
+                                            throwable -> Log.e("Firebase", "Error inserting meal", throwable)
+                                    );
                         } else {
                             Log.e("Firebase", "Meal is null for date " + dateSnapshot.getKey());
                         }
@@ -94,9 +104,10 @@ public class MealLocalDataSource {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("SavedMealsRepository", "Error fetching data from Firebase", error.toException());
+                Log.e("Firebase", "Error fetching data from Firebase", error.toException());
             }
         });
     }
+
 
 }

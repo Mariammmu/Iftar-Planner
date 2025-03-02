@@ -1,54 +1,62 @@
 package com.mariammuhammad.iftarplanner.Presenter.authentication.google;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
-
+import android.content.Intent;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.mariammuhammad.iftarplanner.Views.authentication.google.GoogleView;
 
-public class GooglePresenter implements GoogleContract {
-    private final GoogleView view;
-    private final FirebaseAuth myAuthentication;
-    SharedPreferences sharedPreferences;
+public class GooglePresenter {
+    private GoogleView view;
+    private Context context;
+    private GoogleSignInClient googleSignInClient;
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
 
-
-    public GooglePresenter(GoogleView view, Context context) {
+    public GooglePresenter(GoogleView view, Context context, ActivityResultLauncher<Intent> googleSignInLauncher) {
         this.view = view;
-        this.myAuthentication = FirebaseAuth.getInstance();
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        this.context = context;
+        this.googleSignInLauncher = googleSignInLauncher;
+        configureGoogleSignIn();
     }
 
+    private void configureGoogleSignIn() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(context, gso);
+    }
 
-    @Override
-    public void signInGoogle(GoogleSignInAccount account) {
+    public void signInWithGoogle() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        myAuthentication.signInWithCredential(credential)
-                .addOnSuccessListener(authResult -> {
-                    FirebaseUser user = myAuthentication.getCurrentUser();
-                    if (user != null) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("userId", user.getUid());
-                        editor.putString("userEmail", user.getEmail() != null ? user.getEmail() : "No Email");
-                        editor.putBoolean("isLoggedIn", true);
-                        editor.putString("userName", user.getDisplayName() != null ? user.getDisplayName() : "No Name");
-                        editor.apply();
-                        view.successSignInGoogle("Login successfully");
-                    }
-                })
-                .addOnFailureListener(e ->{
-                        Log.e("GoogleSignInError", "Signup Failed: ", e);
-
-        view.failSignInGoogle("Signup Failed: " + e.getMessage());
-    });
+    public void handleGoogleSignInResult(Intent data) {
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(Exception.class);
+            if (account != null) {
+                view.successSignInGoogle("Google Sign-In successful!");
+            }
+        } catch (Exception e) {
+            if (view != null) {
+                view.failSignInGoogle(e.getMessage());
+            }
         }
+    }
+
+    public void loginAsGuest() {
+        if (view != null) {
+            view.onGuestLoginSuccess();
+        }
+    }
+
+    public void detachView() {
+        this.view = null; // Prevent memory leaks
+    }
 }

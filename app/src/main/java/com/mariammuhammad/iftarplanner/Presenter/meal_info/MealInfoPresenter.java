@@ -2,7 +2,12 @@ package com.mariammuhammad.iftarplanner.Presenter.meal_info;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
@@ -80,6 +85,20 @@ public class MealInfoPresenter implements MealInfoContract{
                 .child(userId)
                 .child(mealStorage.getMealId())
                 .child(mealStorage.getDate())
-                .setValue(mealStorage);
+                .setValue(mealStorage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.i("TAG", "SendData Success: ");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("TAG", "SendData failed: ");
+
+                    }
+                });
+
     }
+
 }
+

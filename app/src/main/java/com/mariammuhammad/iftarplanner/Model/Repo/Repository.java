@@ -1,5 +1,8 @@
 package com.mariammuhammad.iftarplanner.Model.Repo;
 
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.DTO.RootCategories;
 import com.mariammuhammad.iftarplanner.Model.DTO.RootCountries;
@@ -102,4 +105,19 @@ public class Repository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    public Single<FirebaseUser> signInWithGoogle(AuthCredential credential) {
+        return Single.create(emitter -> {
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                    .addOnSuccessListener(authResult -> {
+                        FirebaseUser user = authResult.getUser();
+                        if (user != null) {
+                            emitter.onSuccess(user);
+                        } else {
+                            emitter.onError(new Exception("User is null"));
+                        }
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
+    }
 }
