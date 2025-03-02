@@ -158,5 +158,9 @@
         android:id="@+id/planFragmentNav"
         android:name="com.mariammuhammad.iftarplanner.Views.plan.PlanFragment"
         android:label="fragment_plan"
-        tools:layout="@layout/fragment_plan" />
+        tools:layout="@layout/fragment_plan" >
+        <action
+            android:id="@+id/action_planFragmentNav_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+    </fragment>
 </navigation>

@@ -15,8 +15,10 @@ import com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals.MealRemoteDataSo
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class Repository {
 
@@ -94,5 +96,10 @@ public class Repository {
     public void fetchDataFromFirebase() {
         mealLocalDataSource.fetchDataFromFirebase();
     }
-    
+    public Completable addToPlan(MealStorage mealStorage) {
+        return mealLocalDataSource.insert(mealStorage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

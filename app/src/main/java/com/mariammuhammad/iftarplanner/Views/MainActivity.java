@@ -1,5 +1,6 @@
 package com.mariammuhammad.iftarplanner.Views;
 
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -93,13 +94,26 @@ private void changeStatusBarColor(){
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
     window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_dark));
 }
+
+    private boolean isGuestUser() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "");
+        return "guest".equals(userId);
+    }
     private boolean handleBottomNavigation(MenuItem item) {
         int itemId = item.getItemId();
 
         if (itemId == R.id.home) {
             navController.navigate(R.id.homeFragment);
             return true;
-        } else if (itemId == R.id.favorite) {
+        } else if (itemId == R.id.favorite || itemId == R.id.calendar || itemId == R.id.profile) {
+            if (isGuestUser()) {
+                showErrorSnackBar("Please log in to access this section.", R.color.accent);
+                return false; // Prevents navigation
+            }
+        }
+
+        if (itemId == R.id.favorite) {
             navController.navigate(R.id.favoriteFragment);
             return true;
         } else if (itemId == R.id.calendar) {
@@ -108,14 +122,13 @@ private void changeStatusBarColor(){
         } else if (itemId == R.id.search) {
             navController.navigate(R.id.searchFragment);
             return true;
-        }
-        else if (itemId == R.id.profile) {
+        } else if (itemId == R.id.profile) {
             navController.navigate(R.id.profileFragment);
             return true;
         }
-        return false;
-   }
 
+        return false;
+    }
     private void updateUIBasedOnNetwork() {
         if (isNetworkAvailable()) {
             lottieAnimationView.setVisibility(View.GONE);

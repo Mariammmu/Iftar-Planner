@@ -49,5 +49,6 @@
     <string name="watch_video_now">Watch Video Now!</string>
     <string name="no_search_found">No search found</string>
     <string name="remove">Remove from Favorite</string>
+    <string name="remove_from_planned_meals">Remove from Planned Meals</string>
 
 </resources>
