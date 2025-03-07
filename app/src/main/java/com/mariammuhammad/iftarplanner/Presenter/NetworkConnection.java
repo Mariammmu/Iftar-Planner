@@ -13,7 +13,8 @@ import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 public class NetworkConnection {
     private final ConnectivityManager connectivityManager;
     private NetworkConnectionListener networkConnectionListener;
-    private ConnectivityManager.NetworkCallback networkCallback;
+    private ConnectivityManager.NetworkCallback networkCallback; //check only the connectivity
+    //database real time >>socket in case you want to check the internet availability (Actual internet)
 
     public NetworkConnection(Context context, NetworkConnectionListener listener) {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -63,8 +63,6 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     private SearchPresenter presenter;
     private SearchAdapter searchAdapter;
     private FilterPresenter filterPresenter;
-    FilteringView filteringView;
-
     TextView tvemptySearch;
     ImageView noSearchImage;
     private final ArrayList<Object> allItems = new ArrayList<>();
@@ -98,7 +96,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
         searchEditText = textInputLayout.getEditText();
         searchRecycler = view.findViewById(R.id.search_recycler);
         searchRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        noInternetLayout = view.findViewById(R.id.noInternet_layout);
+        noInternetLayout = view.findViewById(R.id.noInternet_layout_search);
         noSearchImage=view.findViewById(R.id.searchImg);
         tvemptySearch=view.findViewById(R.id.emptySearch);
 
@@ -107,15 +105,15 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
         categoryChip = view.findViewById(R.id.chipCategories);
         countryChip = view.findViewById(R.id.chipCountry);
 
-        Repository repository = Repository.getInstance(
+
+
+        presenter = new SearchPresenter(this, Repository.getInstance(
                 MealLocalDataSource.getInstance(requireContext()),
                 MealRemoteDataSource.getInstance(),
                 CategoriesRemoteDataSource.getInstance(),
                 CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance()
+                IngredientsRemoteDataSource.getInstance())
         );
-
-        presenter = new SearchPresenter(this, repository);
 
         networkConnection = new NetworkConnection(requireContext(), this);
 
@@ -126,6 +124,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
                 navigateToMealFilter(((Category) item).getStrCategory(), "category");
             } else if (item instanceof Country) {
                 navigateToMealFilter(((Country) item).getStrArea(), "country");
+            } else if (item instanceof Meal) {
+
             }
         });
         searchRecycler.setAdapter(searchAdapter);
@@ -151,6 +151,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
             presenter.getIngredients();
         } else if (isCountry) {
             presenter.getCountries();
+        } else {
+            presenter.getMealByName(searchEditText.getText().toString().trim());
         }
     }
 
@@ -207,6 +209,12 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     private void filterData(String query) {
         query = query.toLowerCase();
         filteredItems.clear();
+
+//        if (query.isEmpty()) {
+//            visibility(View.GONE, View.GONE);  // Hide both meals and "No Results"
+//            searchAdapter.updateSearch(new ArrayList<>());
+//            return;
+//        }
         Log.d("SearchFragment", "Filtering for query: " + query);
         Log.d("SearchFragment", "Current filter: " + (isCategory ? "Category" : isIngredient ? "Ingredient" : "Country"));
 
@@ -221,53 +229,38 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
                 matchesQuery = ((Category) item).getStrCategory().toLowerCase().contains(query);
             } else if (item instanceof Country && isCountry) {
                 matchesQuery = ((Country) item).getStrArea().toLowerCase().contains(query);
-            } else if(item instanceof Meal){
-                matchesQuery=((Meal) item).strMeal.toLowerCase().contains(query);
+            } else if (item instanceof Meal && !isCategory && !isIngredient && !isCountry) {
+                matchesQuery = ((Meal) item).strMeal.toLowerCase().contains(query);
             }
-
             if (matchesQuery) {
                 uniqueItems.add(item);
-                visibility(View.VISIBLE, View.GONE);
             }
         }
 
-        // Convert Set to List and update adapter
         filteredItems.addAll(uniqueItems);
 
-        if (filteredItems.isEmpty()) {
-            visibility(View.GONE, View.VISIBLE);
+        // If searching for a meal, hide meals until user enters a query
+        if (!isCategory && !isIngredient && !isCountry) {
+            if (query.isEmpty()) {
+                // Hide the meals list until the user searches
+                visibility(View.GONE, View.GONE);
+                searchAdapter.updateSearch(new ArrayList<>());
+                return;
+            } else if (filteredItems.isEmpty()) {
+                // Show "No Results" if no meals match and query is not empty
+                presenter.getMealByName(query);
+                visibility(View.GONE, View.VISIBLE);
+            } else {
+                // Show meals when search results are available
+                visibility(View.VISIBLE, View.GONE);
+            }
+        } else {
+            // If filtering categories, ingredients, or countries, show them directly
+            visibility(filteredItems.isEmpty() ? View.GONE : View.VISIBLE, View.GONE);
         }
 
         searchAdapter.updateSearch(filteredItems);
     }
-
-//    private void filterData(String query) {
-//        query = query.toLowerCase();
-//        filteredItems.clear();
-//
-//        for (Object item : allItems) {
-//            boolean matchesQuery = false;
-//
-//            if (item instanceof Ingredient && isIngredient) {
-//                matchesQuery = ((Ingredient) item).getStrIngredient().toLowerCase().contains(query);
-//            } else if (item instanceof Category && isCategory) {
-//                matchesQuery = ((Category) item).getStrCategory().toLowerCase().contains(query);
-//            } else if (item instanceof Country && isCountry) {
-//                matchesQuery = ((Country) item).getStrArea().toLowerCase().contains(query);
-//            }
-//
-//            if (matchesQuery) {
-//                filteredItems.add(item);
-//                visibility(View.VISIBLE, View.GONE);
-//            }
-//        }
-//
-//        if (filteredItems.isEmpty()) {
-//            visibility(View.GONE, View.VISIBLE);
-//        }
-//
-//        searchAdapter.updateSearch(filteredItems);
-//    }
 
     private void visibility(int visible, int gone) {
         searchRecycler.setVisibility(visible);
@@ -318,13 +311,18 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     }
 
     @Override
-    public void onNetworkAvailable() {}
+    public void onNetworkAvailable() {
+
+    }
 
     @Override
     public void onNetworkLost() {}
 
     @Override
-    public void onItemClick(Object item) {}
+    public void onItemClick(Object item) {
+      //  SearchFragmentDirections.ActionSearchFragmentToItemInfoFragment action =
+        //        SearchFragmentDirections.actionSearchFragmentToItemInfoFragment();
+    }
 
     @Override
     public void onDestroy() {

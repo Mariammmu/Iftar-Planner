@@ -10,21 +10,18 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Views.authentication.signin.SignInView;
 import com.mariammuhammad.iftarplanner.Views.authentication.signup.SignUpView;
 
 public class SignInPresenter implements SignInContract {
 
     private final SignInView signInView;
-    private final FirebaseAuth firebaseAuth;
-    SharedPreferences sharedPreferences;
     private final View view;
 
-    public SignInPresenter(SignInView signInView, Context context, View view) {
+    public SignInPresenter(SignInView signInView, View view) {
         this.signInView = signInView;
-        this.firebaseAuth = FirebaseAuth.getInstance();
         this.view = view;
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
     }
 
@@ -35,15 +32,13 @@ public class SignInPresenter implements SignInContract {
             return;
         }
 
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if (currentUser != null) {
                         signInView.successSignIn();
-//                        sharedPreferences.edit().putString("userId", currentUser.getUid()).apply();
-//                        sharedPreferences.edit().putString("userName", currentUser.getDisplayName()).apply();
-//                        sharedPreferences.edit().putString("userEmail", currentUser.getEmail()).apply();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        SharedPreferences.Editor editor = MySharedPrefs.getInstance().edit();
 
                         String userName = (currentUser.getDisplayName() != null) ? currentUser.getDisplayName() : "Unknown";
                         editor.putString("userId", currentUser.getUid());
@@ -55,12 +50,8 @@ public class SignInPresenter implements SignInContract {
                 .addOnFailureListener(e -> {
                     Log.e("SignInError", "Error signing in: " + e.getMessage());
                     signInView.failSignIn(e.getMessage());
-
-
-
                 });
     }
-
     private boolean validateInputs(String email, String password) {
 
         if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {

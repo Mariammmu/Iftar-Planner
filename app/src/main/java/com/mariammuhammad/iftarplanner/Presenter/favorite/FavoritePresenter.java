@@ -4,8 +4,10 @@ package com.mariammuhammad.iftarplanner.Presenter.favorite;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Views.favorite.FavoriteView;
@@ -16,18 +18,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class FavoritePresenter implements FavoriteContract {
     private final FavoriteView favoriteView;
     private final Repository repository;
-
-    SharedPreferences sharedPreferences;
-
     DatabaseReference databaseReference;
-    FirebaseDatabase firebaseDatabase;
 
-    public FavoritePresenter(FavoriteView favoriteView, Repository repository, Context context) {
+    public FavoritePresenter(FavoriteView favoriteView, Repository repository) {
         this.favoriteView = favoriteView;
         this.repository = repository;
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Meals");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Meals");
     }
 
     @Override
@@ -62,7 +58,8 @@ public class FavoritePresenter implements FavoriteContract {
 
     @Override
     public void deleteData(MealStorage mealStorage) {
-        String userId = sharedPreferences.getString("userId", null);
+       // String userId = MySharedPrefs.getInstance().getString("userId", null);
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (userId != null) {
             databaseReference.child("Users")
                     .child(userId)

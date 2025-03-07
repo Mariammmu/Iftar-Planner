@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <group
             android:checkableBehavior="single">
@@ -22,13 +20,4 @@
                 android:icon="@drawable/account_circle"
                 android:title="Profile" />
         </group>
-        <item
-            android:title="">
-            <menu>
-                <item
-                    android:id="@+id/nav_logout"
-                    android:icon="@drawable/baseline_arrow_back_24"
-                    android:title="Logout"/>
-            </menu>
-        </item>
-    </menu>
+     </menu>

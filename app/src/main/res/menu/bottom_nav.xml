@@ -5,26 +5,32 @@
         <item
             android:id="@+id/home"
             android:title="Home"
+            android:iconTint="@color/background"
             android:icon="@drawable/baseline_food_bank_24" />
+
 
         <item
             android:id="@+id/search"
             android:title="Search"
+            android:iconTint="@color/background"
             android:icon="@drawable/search_not_found" />
 
         <item
             android:id="@+id/favorite"
             android:title="Favorite"
+            android:iconTint="@color/background"
             android:icon="@drawable/fav" />
 
         <item
             android:id="@+id/calendar"
             android:title="Calendar"
+            android:iconTint="@color/background"
             android:icon="@drawable/baseline_edit_calendar_24" />
 
         <item
             android:id="@+id/profile"
             android:title="Profile"
+            android:iconTint="@color/background"
             android:icon="@drawable/account_circle" />
     </group>
 </menu>

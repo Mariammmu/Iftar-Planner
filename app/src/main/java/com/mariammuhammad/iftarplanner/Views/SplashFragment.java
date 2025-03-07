@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mariammuhammad.iftarplanner.R;
 
 
@@ -82,13 +83,12 @@ public class SplashFragment extends Fragment {
                 handler.postDelayed(() ->
 
             {
-                if ((sharedPreferences.getBoolean("login", false)) ||
-                        (sharedPreferences.getBoolean("google", false))) {
+                if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
                     Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_homeFragment);
                 } else {
                 navController.navigate(R.id.action_splashFragment_to_welcomeFragment);
             }
-                }, 10000);
+                }, 8000);
 
             }
 

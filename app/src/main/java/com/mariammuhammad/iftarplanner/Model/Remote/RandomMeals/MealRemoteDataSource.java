@@ -39,6 +39,7 @@ public class MealRemoteDataSource {
                 return callMeals.getMealsByCountry(filterValue);
             case "random":
                 return callMeals.getRandomMeal();
+
             default:
                 return Single.error(new IllegalArgumentException("Unsupported data type: " + dataType));
         }
@@ -50,4 +51,8 @@ public class MealRemoteDataSource {
     }
 
 
+    public Single<RootMeal> getMealByName(String name)
+    {
+        return callMeals.getMealByName(name);
+    }
 }

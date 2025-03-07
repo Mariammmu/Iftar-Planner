@@ -1,54 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="120dp"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:background="@drawable/different_background"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+       >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ingredientImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="110dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/CircleShape"
             app:strokeColor="@color/accent"
-            app:strokeWidth="2dp"
-            android:src="@drawable/ic_launcher_foreground" />
+            app:strokeWidth="2dp" />
 
         <TextView
             android:id="@+id/ingredientText"
             style="@style/editText"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="25dp"
             android:gravity="center"
             android:maxLines="2"
             android:minLines="2"
+            android:paddingBottom="4dp"
             android:text="Ingredient"
+            android:textColor="@color/primary_dark"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientImage" />
 
         <TextView
             android:id="@+id/measurement"
+            style="@style/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:gravity="center"
             android:text=""
-            android:textSize="12sp"
             android:textColor="@color/primary_dark"
-            style="@style/editText" />
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/ingredientText"
+            app:layout_constraintStart_toStartOf="@+id/ingredientText"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientText" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

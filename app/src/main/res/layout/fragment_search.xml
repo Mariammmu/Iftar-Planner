@@ -8,10 +8,12 @@
     tools:context=".Views.search.SearchFragment"
     android:background="@drawable/different_background">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/internet_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="visible">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -39,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search"
+                android:textColor="@color/primary_dark"
                 android:inputType="textAutoComplete"
                 android:paddingStart="40dp"
                 android:textColorHint="@color/primary_dark" />
@@ -61,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category"
+                android:backgroundTint="@color/divider"
                 android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
@@ -72,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ingredient"
+                android:backgroundTint="@color/divider"
                 android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
@@ -83,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/country"
+                android:backgroundTint="@color/divider"
                 android:textColor="@color/primary_dark"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeColor="@color/primary_dark"
@@ -93,15 +99,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_recycler"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:paddingStart="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chipGroup"
-            app:spanCount="2">
+            >
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -135,9 +139,10 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/noInternet_layout"
+        android:id="@+id/noInternet_layout_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView

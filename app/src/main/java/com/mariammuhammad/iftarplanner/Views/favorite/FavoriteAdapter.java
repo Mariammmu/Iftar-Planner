@@ -1,5 +1,6 @@
 package com.mariammuhammad.iftarplanner.Views.favorite;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,6 @@ import com.mariammuhammad.iftarplanner.R;
 import com.mariammuhammad.iftarplanner.Views.plan.SpecificMealListener;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyViewHolder> {
     private final Context context;
@@ -54,9 +54,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
                 .into(holder.mealImage);
 
         holder.removeButton.setOnClickListener(v -> {
-            if (removeListener != null) {
-                removeListener.onMealDelete(mealStorage);
-            }
+            showConfirmationDialog(mealStorage);
+
         });
         holder.itemView.setOnClickListener(v -> {
             if (specificMealListener != null) {
@@ -71,6 +70,22 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         return favoriteMeals.size();
     }
 
+    private void showConfirmationDialog(MealStorage mealStorage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirm Deletion");
+        builder.setMessage("Are you sure you want to delete this meal?");
+
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            if (removeListener != null) {
+                removeListener.onMealDelete(mealStorage);
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView mealName;
         ImageView mealImage;
@@ -80,7 +95,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
             super(itemView);
             mealName = itemView.findViewById(R.id.mealListName);
             mealImage = itemView.findViewById(R.id.mealListImage);
-            removeButton = itemView.findViewById(R.id.removeBtn);
+            removeButton = itemView.findViewById(R.id.removeBtnPlan);
         }
     }
 }

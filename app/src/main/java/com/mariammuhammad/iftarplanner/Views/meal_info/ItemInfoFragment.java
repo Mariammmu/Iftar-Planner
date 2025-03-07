@@ -31,6 +31,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.Local.MealLocalDataSource;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
@@ -57,7 +59,6 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
     private TextView mealName, steps, mealCountry, mealCategory;
     private WebView videoWebView;
     private RecyclerView ingredientsRecycler;
-    private SharedPreferences sharedPreferences;
     private Boolean isFavourite = false;
     private Boolean isPlan = false;
     private ImageButton imageButtonFavourite, imageButtonPlan;
@@ -95,15 +96,12 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         ingredientsRecycler = view.findViewById(R.id.ingredient_recycler);
         ingredientsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
         presenter = new MealInfoPresenter(this, Repository.getInstance(
                 MealLocalDataSource.getInstance(requireContext()),
                 MealRemoteDataSource.getInstance(),
                 CategoriesRemoteDataSource.getInstance(),
                 CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance()),
-                requireContext()
+                IngredientsRemoteDataSource.getInstance())
         );
 
 
@@ -138,7 +136,7 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         updatePlanButtonState(isPlan);
 
         imageButtonFavourite.setOnClickListener(v -> {
-            String userId = sharedPreferences.getString("userId", null);
+            String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
             if (userId != null && !userId.isEmpty()) {
                 if (isFavourite) {
                    MealStorage mealStorage = new MealStorage(false, true, meal, "Favourite", userId, meal.idMeal);
@@ -271,7 +269,8 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
 
 
     private void saveMealToPlan(Meal meal, String selectedDate) {
-        String userId = sharedPreferences.getString("userId", null);
+      //  String userId = sharedPreferences.getString("userId", null);
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (userId != null && !userId.isEmpty()) {
             String formattedDate = formatDate(selectedDate); // Use the helper method to format the date
             MealStorage mealStorage = new MealStorage(true, false, meal, formattedDate, userId, meal.idMeal);

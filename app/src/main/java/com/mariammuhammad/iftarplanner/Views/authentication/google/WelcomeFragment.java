@@ -1,11 +1,12 @@
 package com.mariammuhammad.iftarplanner.Views.authentication.google;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -21,109 +22,136 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Presenter.authentication.google.GooglePresenter;
 import com.mariammuhammad.iftarplanner.R;
 
+
 public class WelcomeFragment extends Fragment implements GoogleView {
 
-    private static final String TAG = "WelcomeFragment";
-    private static final int RC_SIGN_IN = 123;
-
-    private Button btnSignUp, btnSignIn, btnGoogle;
-    private TextView txtGuest;
+    Button btnSignUp, btnSignIn, btnGoogle;
+    TextView txtGuest;
+    private GoogleSignInClient googleSignInClient;
+    Button guestBtn;
     private GooglePresenter googlePresenter;
-    private NavController navController;
+    SharedPreferences sharedPreferences;
 
-    private final ActivityResultLauncher<Intent> googleSignInLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
-                    googlePresenter.handleGoogleSignInResult(result.getData());
-                }
-            });
+    private static final String TAG = "Welcome_Fragment";
 
     public WelcomeFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        googlePresenter = new GooglePresenter(this, requireContext(), googleSignInLauncher);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 123) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null && account.getIdToken() != null) {
+                    googlePresenter.signInGoogle(account);
+                } else {
+                    this.successSignInGoogle("Google Sign-In succeeded");
+                }
+            } catch (ApiException e) {
+                this.failSignInGoogle("Google Sign-In failed");
+            }
+        }
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_welcome, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(requireActivity(), R.id.navHostFragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.navHostFragment);
+        //        NavController navController = Navigation.findNavController(requireActivity(), R.id.main);
 
         btnSignUp = view.findViewById(R.id.btnSignUp);
         btnSignIn = view.findViewById(R.id.btnLogin);
         btnGoogle = view.findViewById(R.id.btnGoogle);
         txtGuest = view.findViewById(R.id.txtGuest);
 
-        if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) {
-            navigateToHome();
-        }
 
 
-        clickButtonListener();
+
+
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        googlePresenter = new GooglePresenter(this, requireContext());
+
+        btnSignIn.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signinFragment));
+
+        btnSignUp.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signupFragment));
+
+        txtGuest.setOnClickListener(v -> {
+//            if (FirebaseAuth.getInstance().getCurrentUser()==null)
+            MySharedPrefs.getInstance().edit().putString("userId", "guest").apply();
+            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+
+        });
+
+        btnGoogle.setOnClickListener(v -> {
+            signInWithGoogle();
+        });
+
     }
 
-    private void clickButtonListener(){
-        btnSignIn.setOnClickListener(v -> navigateToSignIn());
-        btnSignUp.setOnClickListener(v -> navigateToSignUp());
-        txtGuest.setOnClickListener(v -> googlePresenter.loginAsGuest());
-        btnGoogle.setOnClickListener(v -> googlePresenter.signInWithGoogle());
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        googlePresenter.detachView();
+    private void signInWithGoogle() {
+        googleSignInClient.revokeAccess().addOnCompleteListener(task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, 123);
+        });
+
     }
 
-    private void navigateToSignIn() {
-        navController.navigate(R.id.action_welcomeFragment_to_signinFragment);
-    }
-
-    private void navigateToSignUp() {
-        navController.navigate(R.id.action_welcomeFragment_to_signupFragment);
-    }
 
     @Override
     public void successSignInGoogle(String successfulMessage) {
-        showSnackBar(successfulMessage);
-        if (GoogleSignIn.getLastSignedInAccount(requireContext()) != null) {
-            navigateToHome();
-        }    }
+        showSnackBar("Login Successfully");
+        Navigation.findNavController(getView()).navigate(R.id.action_welcomeFragment_to_homeFragment);
+
+    }
 
     @Override
     public void failSignInGoogle(String errorMessage) {
-        Log.i(TAG, "failSignInGoogle: " + errorMessage);
+        Log.i(TAG, "failSignInGoogle: ");
         showSnackBar("Sign In with Google Failed: " + errorMessage);
-    }
 
-    @Override
-    public void onGuestLoginSuccess() {
-        showSnackBar("Logged in as Guest");
-        navigateToHome();
-    }
-
-    private void navigateToHome() {
-        navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
     }
 
     @Override
     public void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         int color = ContextCompat.getColor(requireContext(), R.color.primary_dark);
-        snackbarView.setBackgroundColor(color);
+        snackbarView.setBackgroundTintList(ColorStateList.valueOf(color));
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();

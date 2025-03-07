@@ -1,5 +1,7 @@
 package com.mariammuhammad.iftarplanner.Presenter.search;
 
+import android.util.Log;
+
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Views.search.SearchView;
 
@@ -55,6 +57,26 @@ public class SearchPresenter implements SearchContract {
                         item -> searchView.showCountries(item),
                         err -> searchView.showError(err.getMessage())
                 );
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getMealByName(String name) {
+        Disposable disposable = repository.getMealByName(name)
+                .map(item -> item.getMeals())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            Log.d("Presenter", "Fetched meals: " + item.size()); // Log size
+                            searchView.showMeals(item);
+                        },
+                        err -> {
+                            Log.e("Presenter", "Error fetching meals: " + err.getMessage());
+                            searchView.showError(err.getMessage());
+                        }
+                );
+
         compositeDisposable.add(disposable);
     }
 

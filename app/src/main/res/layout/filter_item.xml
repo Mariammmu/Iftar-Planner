@@ -1,19 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="170dp"
-    android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    android:background="@drawable/different_background"
-    android:elevation="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="6dp">
+    android:layout_width="160dp"
+    android:layout_height="200dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/different_background">
+        android:layout_height="match_parent"
+        android:background="@drawable/different_background"
+        >
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/mealListImage"
@@ -21,11 +20,12 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/load"
+            android:paddingTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/CircleShape"
-            app:strokeColor="@color/accent"
+            app:strokeColor="@color/primary_dark"
             app:strokeWidth="2dp" />
 
         <TextView
@@ -42,8 +42,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mealListImage"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Meal Name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

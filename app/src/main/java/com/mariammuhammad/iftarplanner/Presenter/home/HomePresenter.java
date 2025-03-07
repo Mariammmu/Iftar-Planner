@@ -27,26 +27,14 @@ public class HomePresenter implements HomeContract{
 
     private final HomeView homeView;
     private final Repository repository;
-    FirebaseAuth firebaseAuth;
-    Context context;
-    DatabaseReference myRef;
-    FirebaseDatabase database;
-    SharedPreferences sharedPreferences;
     private final CompositeDisposable disposable;
 
 
 
-    public HomePresenter(HomeView homeView, Repository repository, Context context) {
+    public HomePresenter(HomeView homeView, Repository repository) {
         this.homeView = homeView;
         this.repository = repository;
-        this.context = context;
-        this.firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
         this.disposable = new CompositeDisposable();
-
-        myRef = database.getReference("Meals");
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
     }
 
 
@@ -57,10 +45,10 @@ public class HomePresenter implements HomeContract{
         disposable.add(
                 repository.getMeals()
                         .toObservable()
-                        .repeat(5) // Fetch meals 5 times dynamically
+                        .repeat(5)
                         .subscribeOn(Schedulers.io())
                         .map(RootMeal::getMeals)
-                        .flatMapIterable(meals -> meals) // Flatten meal lists
+                        .flatMapIterable(meals -> meals)
                         .toList()
                         .map(ArrayList::new)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -119,56 +107,22 @@ public class HomePresenter implements HomeContract{
         );
     }
 
-    @Override
-    public void logout() {
-        firebaseAuth.signOut();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear().apply();
-        clearCache();
-
-       disposable.add( repository.clearAllData()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.d("Logout", "Local database cleared"),
-                        throwable -> Log.e("Logout", "Failed to clear local database", throwable)
-                )
-       );
-       homeView.onLogoutSuccess();
-
-    }
+//    @Override
+//    public void logout() {
+////        firebaseAuth.signOut();
+////        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+////        SharedPreferences.Editor editor = sharedPreferences.edit();
+////        editor.clear().apply();
+//    }
 
     @Override
     public void getDataFromFirebase() {
         repository.fetchDataFromFirebase();
 
-
     }
 
-    private void clearCache() {
-        try {
-            File cacheDirectory = context.getCacheDir();
-            if (cacheDirectory != null && cacheDirectory.isDirectory()) {
-                deleteDirectory(cacheDirectory);
-            }
-        } catch (Exception exception) {
-            Log.e("CACHE_CLEAR", "Failed to clear cache", exception);
-        }
-    }
 
-    private boolean deleteDirectory(File directory) {
-        if (directory != null && directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (!deleteDirectory(file)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return directory != null && directory.delete();
-    }
+
 
     public void releaseResources() {
         disposable.clear();

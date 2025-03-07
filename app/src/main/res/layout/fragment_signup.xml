@@ -38,7 +38,7 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvAllFav"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,6 +66,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="8dp"
+                android:textColor="@color/primary_dark"
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/username"
                 android:drawablePadding="8dp"
@@ -79,7 +80,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAllFav" />
 
             <EditText
                 android:id="@+id/editTextEmail"
@@ -92,6 +93,7 @@
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/email"
                 android:drawablePadding="8dp"
+                android:textColor="@color/primary_dark"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:paddingStart="8dp"
@@ -112,6 +114,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="8dp"
+                android:textColor="@color/primary_dark"
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/password"
                 android:drawableEnd="@drawable/eye"
@@ -137,6 +140,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginBottom="8dp"
+                android:textColor="@color/primary_dark"
                 android:background="@drawable/custom_edittext"
                 android:drawableStart="@drawable/password"
                 android:drawablePadding="8dp"
@@ -158,9 +162,8 @@
                 android:layout_width="250dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/custom_edittext"
-                android:backgroundTint="@color/primary_dark"
-                android:fontFamily="@font/sigmar"
+                android:textColor="@color/background"
+                android:backgroundTint="@color/primary_dark"                android:fontFamily="@font/sigmar"
                 android:text="@string/sign_up"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/txthaveAccount"

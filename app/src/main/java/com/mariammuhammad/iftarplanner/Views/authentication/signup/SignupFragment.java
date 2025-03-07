@@ -60,7 +60,7 @@ TextView txtLogin;
         etPass=view.findViewById(R.id.editTextPass);
         etConfirmPass=view.findViewById(R.id.editTxtConfirmPass);
         txtLogin=view.findViewById(R.id.loginTxt);
-        signUpPresenter = new SignUpPresenter(this, requireContext(),view);
+        signUpPresenter = new SignUpPresenter(this);
 
         btnSignUpFrag.setOnClickListener(v -> {
             String username = etName.getText().toString().trim();

@@ -1,5 +1,10 @@
 package com.mariammuhammad.iftarplanner.Views.profile;
 
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -14,10 +19,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
+import com.mariammuhammad.iftarplanner.Model.Local.MealLocalDataSource;
+import com.mariammuhammad.iftarplanner.Model.Remote.Categories.CategoriesRemoteDataSource;
+import com.mariammuhammad.iftarplanner.Model.Remote.Countries.CountriesRemoteDataSource;
+import com.mariammuhammad.iftarplanner.Model.Remote.Ingredients.IngredientsRemoteDataSource;
+import com.mariammuhammad.iftarplanner.Model.Remote.RandomMeals.MealRemoteDataSource;
+import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Presenter.NetworkConnection;
 import com.mariammuhammad.iftarplanner.Presenter.profile.ProfilePresenter;
 import com.mariammuhammad.iftarplanner.R;
@@ -25,10 +38,11 @@ import com.mariammuhammad.iftarplanner.R;
 
 public class ProfileFragment extends Fragment implements ProfileView, NetworkConnectionListener {
 
-        TextView tvFavorite, tvPlan, tvName;
+        TextView tvFavorite, tvPlan, tvName, tvChef;
 
+        ImageView imageUser;
         View layoutNoInternet;
-        Button btnLogout;
+        Button btnLogout,btnGuest;
 
         NetworkConnection connectionPresenter;
         ProfilePresenter profilePresenter;
@@ -53,17 +67,31 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layoutNoInternet=view.findViewById(R.id.noInternet_layout);
+        layoutNoInternet=view.findViewById(R.id.noInternet_layout_profile);
 
         tvFavorite=view.findViewById(R.id.txtFavorite);
         tvPlan=view.findViewById(R.id.txtPlanned);
         tvName=view.findViewById(R.id.txtUserName);
+        tvChef=view.findViewById(R.id.txtHelloChef);
+        imageUser=view.findViewById(R.id.imageUser);
+        btnGuest=view.findViewById(R.id.btnSignUpGuest);
         btnLogout=view.findViewById(R.id.btnLogout);
         profilePresenter= new ProfilePresenter(this,
-                requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE));
+                Repository.getInstance(MealLocalDataSource.getInstance(requireContext()),
+                        MealRemoteDataSource.getInstance(),
+                        CategoriesRemoteDataSource.getInstance(),
+                        CountriesRemoteDataSource.getInstance(),
+                        IngredientsRemoteDataSource.getInstance()));
 
         connectionPresenter= new NetworkConnection(requireContext(),this);
 
+        btnGuest.setOnClickListener(view1 -> { //I updated that
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_profileFragment_to_welcomeFragment);
+            tvPlan.setVisibility(GONE);
+            tvFavorite.setVisibility(GONE);
+
+        });
         btnLogout.setOnClickListener(view1 -> {
             showLogoutConfirmationDialog();
             });
@@ -86,6 +114,13 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
 
     }
 
+    private boolean isGuestUser() {
+        // SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String userId = MySharedPrefs.getInstance().getString("userId", "");
+        return "guest".equals(userId);
+    }
+
+
     private void showLogoutConfirmationDialog() {
         androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
                 .setTitle("Logout Confirmation")
@@ -100,7 +135,7 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
 
         if (dialog.getWindow() != null) {
             GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(Color.parseColor("#FDFDFD"));
+            drawable.setColor(Color.parseColor("#19374F"));
             drawable.setCornerRadius(16f);
             dialog.getWindow().setBackgroundDrawable(drawable);
         }
@@ -113,30 +148,48 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
         tvName.setText(userName);
     }
 
+
     @Override
     public void onNetworkAvailable() {
-        if(profilePresenter.isUserLoggedOut()){
-            layoutNoInternet.setVisibility(View.GONE);
-            tvFavorite.setVisibility(View.GONE);
-            tvPlan.setVisibility(View.GONE);
-            tvName.setVisibility(View.GONE);
-            btnLogout.setVisibility(View.GONE);
+        if(profilePresenter.isUserLoggedOut()||isGuestUser()){
+            layoutNoInternet.setVisibility(GONE);
+            tvFavorite.setVisibility(GONE);
+            tvPlan.setVisibility(GONE);
+            tvName.setVisibility(GONE);
+            btnLogout.setVisibility(GONE);
+            btnGuest.setVisibility(GONE);
         }else {
-            layoutNoInternet.setVisibility(ViewGroup.GONE);
-            tvFavorite.setVisibility(View.VISIBLE);
-            tvPlan.setVisibility(View.VISIBLE);
-            tvName.setVisibility(View.VISIBLE);
-            btnLogout.setVisibility(View.VISIBLE);
+            layoutNoInternet.setVisibility(GONE);
+            tvFavorite.setVisibility(VISIBLE);
+            tvPlan.setVisibility(VISIBLE);
+            tvName.setVisibility(VISIBLE);
+            btnLogout.setVisibility(VISIBLE);
+            imageUser.setVisibility(VISIBLE);
+            tvChef.setVisibility(VISIBLE);
+            btnGuest.setVisibility(GONE);
         }
+        if(isGuestUser()){
+            btnGuest.setVisibility(VISIBLE);
+        }
+
 
     }
 
     @Override
     public void onNetworkLost() {
-        layoutNoInternet.setVisibility(ViewGroup.VISIBLE);
-        tvFavorite.setVisibility(View.GONE);
-        tvPlan.setVisibility(View.GONE);
-        tvName.setVisibility(View.GONE);
-        btnLogout.setVisibility(View.GONE);
+        layoutNoInternet.setVisibility(VISIBLE);
+        tvFavorite.setVisibility(GONE);
+        tvPlan.setVisibility(GONE);
+        tvName.setVisibility(GONE);
+        imageUser.setVisibility(GONE);
+        tvChef.setVisibility(GONE);
+        btnGuest.setVisibility(GONE);
+        btnLogout.setVisibility(GONE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        profilePresenter.clearDisposable();
     }
 }

@@ -61,14 +61,14 @@ public class FavoriteFragment extends Fragment implements FavoriteView, RemoveLi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         favoriteRecyclerView =view.findViewById(R.id.AllFavRecyclerView);
-        Repository repository = Repository.getInstance(
+
+        favoritePresenter= new FavoritePresenter(this,Repository.getInstance(
                 MealLocalDataSource.getInstance(requireContext()),
                 MealRemoteDataSource.getInstance(),
                 CategoriesRemoteDataSource.getInstance(),
                 CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance()
+                IngredientsRemoteDataSource.getInstance())
         );
-        favoritePresenter= new FavoritePresenter(this,repository, requireContext());
         favoritePresenter.getAllFavoriteMeals();
 
         favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -85,7 +85,7 @@ public class FavoriteFragment extends Fragment implements FavoriteView, RemoveLi
             favoriteRecyclerView.setVisibility(View.VISIBLE);
              favoriteAdapter = new FavoriteAdapter(requireContext(), mealStorage, this);
             favoriteRecyclerView.setAdapter(favoriteAdapter);
-
+            favoriteAdapter.specificMealListener=this::onMealClick; //
         }
 
     }

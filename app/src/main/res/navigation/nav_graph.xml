@@ -114,6 +114,9 @@
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemInfoFragment"

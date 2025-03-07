@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.R;
 
@@ -57,8 +58,8 @@ private static final String TAG = "DailyInspirationAdapter";
         Glide.with(context).load(mealsItem.strMealThumb).placeholder(R.drawable.load).into(holder.mealImage);
 
         holder.randomIdCard.setOnClickListener(v -> {
-            if (sharedPreferences.getString("userId", "guest").equals("guest")) {
-                showDialog("Oops! 🤔\nYou need to sign up first \nto explore this delicious meal. 🍽️");
+            if (MySharedPrefs.getInstance().getString("userId", "guest").equals("guest")) {
+                showDialog("Oops! \uD83D\uDE14\nYou need to sign up first \nto explore this delicious meal.\uD83D\uDE0B \uD83D\uDE0B🍽️");
             } else {
                 onItemClickListener.onClicks(mealsItem);
             }
@@ -116,9 +117,9 @@ private static final String TAG = "DailyInspirationAdapter";
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
-                mealName = itemView.findViewById(R.id.txtCategory);
+                mealName = itemView.findViewById(R.id.txtRandomMeal);
                 mealImage = itemView.findViewById(R.id.randomWait);
-                randomIdCard = itemView.findViewById(R.id.category_card);
+                randomIdCard = itemView.findViewById(R.id.randomIdCard);
             }
         }
     }

@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Views.meal_info.MealInfoView;
@@ -22,16 +24,13 @@ public class MealInfoPresenter implements MealInfoContract{
     private final MealInfoView mealInfoView;
     private final Repository repository;
 
-    FirebaseDatabase database;
     DatabaseReference myRef;
-    SharedPreferences sharedPreferences;
 
-    public MealInfoPresenter(MealInfoView mealInfoView, Repository repository, Context context) {
+    public MealInfoPresenter(MealInfoView mealInfoView, Repository repository) {
         this.mealInfoView = mealInfoView;
         this.repository = repository;
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Meals");
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        myRef = FirebaseDatabase.getInstance().getReference("Meals");
     }
 
     @Override
@@ -80,7 +79,8 @@ public class MealInfoPresenter implements MealInfoContract{
 
     @Override
     public void sendData(MealStorage mealStorage) {
-        String userId = sharedPreferences.getString("userId", null);
+      // String userId = MySharedPrefs.getInstance().getString("userId", null);
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         myRef.child("Users")
                 .child(userId)
                 .child(mealStorage.getMealId())
@@ -88,17 +88,13 @@ public class MealInfoPresenter implements MealInfoContract{
                 .setValue(mealStorage).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.i("TAG", "SendData Success: ");
+                        Log.i("TAG", "onSuccess:sendData ");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.i("TAG", "SendData failed: ");
-
+                        Log.i("TAG", "onFailure:send ");
                     }
                 });
-
     }
-
 }
-

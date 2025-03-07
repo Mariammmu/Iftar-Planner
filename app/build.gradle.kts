@@ -57,7 +57,10 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
     implementation ("androidx.room:room-rxjava3:2.6.1")
-//
+
+    implementation ("com.google.android.material:material:1.11.0")
+    implementation ("com.github.sparrow007:carouselrecyclerview:1.2.6")
+
 //    implementation ("androidx.navigation:navigation-fragment:2.7.7")
 //    implementation ("androidx.navigation:navigation-ui:2.7.7")
 

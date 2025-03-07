@@ -6,11 +6,10 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="wrap_content">
-    <!--    tools:context=".Views.home.HomeFragment">-->
 
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScroller"
+        android:id="@+id/nestedScrollerHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/different_background"
@@ -27,21 +26,21 @@
             android:background="@drawable/different_background">
 
 
-
             <TextView
                 android:id="@+id/daily_inspiration"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:layout_marginTop="20dp"
                 android:drawableStart="@drawable/islamic_lantern"
                 android:drawableEnd="@drawable/islamic_lantern"
                 android:drawablePadding="8dp"
                 android:fontFamily="@font/sigmar"
                 android:text="@string/daily_inspiration"
                 android:textColor="@color/primary_dark"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -49,14 +48,14 @@
                 android:layout_width="100dp"
                 android:layout_height="80dp"
                 android:scaleType="fitXY"
-                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/tvAllFav"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:srcCompat="@drawable/yummy" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/different_background"
                 app:cardCornerRadius="16dp"
@@ -66,24 +65,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/daily_inspiration">
 
-
-                <androidx.recyclerview.widget.RecyclerView
+                <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                     android:id="@+id/recycler_view_random"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/different_background"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:itemCount="1" />
+                    android:layout_height="300dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dailyText" />
 
             </androidx.cardview.widget.CardView>
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvAllFav"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,6 +88,7 @@
                 android:text="@string/more_you_like"
                 android:textColor="@color/primary_dark"
                 android:textSize="20sp"
+                android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -110,18 +105,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.06"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/tvAllFav" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
                 android:id="@+id/recycler_view_category"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="4dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/categories"
-                app:spanCount="2"
-                tools:layout_editor_absoluteX="4dp" />
+                android:layout_height="250dp"
+                android:background="@color/primary_dark"
+                android:paddingTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categories" />
 
             <TextView
                 android:id="@+id/countries"
@@ -142,7 +136,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp"
-                app:layout_constraintTop_toBottomOf="@+id/countries" />
+                app:layout_constraintTop_toBottomOf="@+id/countries"
+                android:paddingBottom="70dp"
+               />
 
             <!-- Constraint to the bottom navigation -->
 
@@ -150,10 +146,10 @@
 </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/noInternet_layout"
+        android:id="@+id/noInternet_layout_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
@@ -22,17 +23,13 @@ public class PlanPresenter implements PlanContract
     private final PlanView planView;
     private final Repository repository;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    SharedPreferences sharedPreferences;
 
     DatabaseReference databaseReference;
-    FirebaseDatabase firebaseDatabase;
 
     public PlanPresenter( Context context, PlanView planView, Repository repository) {
         this.planView = planView;
         this.repository = repository;
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Meals");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Meals");
     }
 
     @Override
@@ -67,7 +64,7 @@ public class PlanPresenter implements PlanContract
 
     @Override
     public void deleteData(MealStorage mealStorage) {
-        String userId = sharedPreferences.getString("userId", null);
+        String userId = MySharedPrefs.getInstance().getString("userId", null);
         if (userId != null) {
             databaseReference.child("Users")
                     .child(userId)

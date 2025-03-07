@@ -62,14 +62,14 @@ public class FilterFragment extends Fragment implements FilteringView{
         mealRecyclerView = view.findViewById(R.id.mealFilteringRecyclerView);
         mealRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-        Repository repository = Repository.getInstance(
-                MealLocalDataSource.getInstance(requireContext()),
-                MealRemoteDataSource.getInstance(),
-                CategoriesRemoteDataSource.getInstance(),
-                CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance()
-        );
-         filterPresenter = new FilterPresenter(this, repository);
+
+         filterPresenter = new FilterPresenter(this, Repository.getInstance(
+                 MealLocalDataSource.getInstance(requireContext()),
+                 MealRemoteDataSource.getInstance(),
+                 CategoriesRemoteDataSource.getInstance(),
+                 CountriesRemoteDataSource.getInstance(),
+                 IngredientsRemoteDataSource.getInstance())
+         );
         FilterFragmentArgs args = FilterFragmentArgs.fromBundle(getArguments());
 
         //String id = args.getMealId();

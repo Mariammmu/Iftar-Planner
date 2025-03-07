@@ -1,11 +1,13 @@
 package com.mariammuhammad.iftarplanner.Views.home;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -21,7 +23,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 import com.mariammuhammad.iftarplanner.Model.DTO.Category;
 import com.mariammuhammad.iftarplanner.Model.DTO.Country;
@@ -41,8 +43,13 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements HomeView, NetworkConnectionListener {
 
-   private RecyclerView randomMealRecycler, categoryRecycler, countryRecycler;
+   private RecyclerView  countryRecycler;
+    CarouselRecyclerview randomMealRecycler, categoryRecycler;
     private HomePresenter homePresenter;
+
+    TextView tvDaily, tvMoreLike;
+
+    ConstraintLayout noInternetLayout;
     
     LottieAnimationView lottieAnimationView;
 
@@ -71,18 +78,28 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         randomMealRecycler = view.findViewById(R.id.recycler_view_random);
+        randomMealRecycler.setAlpha(true);
+        randomMealRecycler.setInfinite(false);
+
+
         categoryRecycler = view.findViewById(R.id.recycler_view_category);
+        categoryRecycler.setAlpha(true);
+        categoryRecycler.setInfinite(false);
+
         countryRecycler=view.findViewById(R.id.recyclerViewCountries);
         lottieAnimationView = view.findViewById(R.id.no_internet_image);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
-        nestedScrollView=view.findViewById(R.id.nestedScroller);
+        noInternetLayout=view.findViewById(R.id.noInternet_layout_home);
+        nestedScrollView=view.findViewById(R.id.nestedScrollerHome);
+        tvDaily=view.findViewById(R.id.daily_inspiration);
+        tvMoreLike=view.findViewById(R.id.tvAllFav);
 
 
 
-        randomMealRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        countryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        // countryRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        //randomMealRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+       // categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+       // countryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+         countryRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(), categoryName -> {
             HomeFragmentDirections.ActionHomeFragmentToFilterFragment action =
@@ -99,8 +116,12 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
 
 
 
-        Repository repository = Repository.getInstance(MealLocalDataSource.getInstance(requireContext()), MealRemoteDataSource.getInstance(), CategoriesRemoteDataSource.getInstance(), CountriesRemoteDataSource.getInstance(), IngredientsRemoteDataSource.getInstance());
-        homePresenter = new HomePresenter(this, repository, requireContext());
+        homePresenter = new HomePresenter(this,
+                Repository.getInstance(MealLocalDataSource.getInstance(requireContext()),
+                        MealRemoteDataSource.getInstance(),
+                        CategoriesRemoteDataSource.getInstance(),
+                        CountriesRemoteDataSource.getInstance(),
+                        IngredientsRemoteDataSource.getInstance()));
 
 
 
@@ -176,15 +197,15 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
 
     @Override
     public void showLoading() {
-        nestedScrollView.setVisibility(View.GONE);
-        lottieAnimationView.setVisibility(View.VISIBLE);
+        nestedScrollView.setVisibility(GONE);
+        lottieAnimationView.setVisibility(VISIBLE);
        // nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_DOWN));
     }
 
     @Override
     public void hideLoading() {
-        nestedScrollView.setVisibility(View.VISIBLE);
-        lottieAnimationView.setVisibility(View.GONE);
+        nestedScrollView.setVisibility(VISIBLE);
+        lottieAnimationView.setVisibility(GONE);
     }
 
     @Override
@@ -195,8 +216,24 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        homePresenter.releaseResources();
+
+    }
+
+    @Override
     public void onNetworkAvailable() {
         loadHomeData();
+        showLoading();
+        nestedScrollView.setVisibility(VISIBLE);
+        noInternetLayout.setVisibility(GONE);
+
 
     }
 
@@ -204,6 +241,7 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
     public void onNetworkLost() {
         showError("Network is not available");
         hideLoading();
-
+        nestedScrollView.setVisibility(GONE);
+        noInternetLayout.setVisibility(VISIBLE);
     }
 }

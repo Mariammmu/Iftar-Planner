@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.mariammuhammad.iftarplanner.Model.DTO.Category;
 import com.mariammuhammad.iftarplanner.Model.DTO.Country;
 import com.mariammuhammad.iftarplanner.Model.DTO.Ingredient;
+import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.R;
 import com.mariammuhammad.iftarplanner.Views.filter.FilterListener;
 
@@ -60,6 +61,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             String countryCode = COUNTRY_CODE_MAP.getOrDefault(((Country) item).getStrArea(), "xx");
             String flagUrl = "https://www.themealdb.com/images/icons/flags/big/64/" + countryCode + ".png";
             holder.loadImage(flagUrl);
+            holder.itemView.setOnClickListener(v -> searchListener.onItemClick(item));
+        } else if (item instanceof Meal) {
+            holder.tvItemName.setText(((Meal) item).strMeal);
+            holder.loadImage(((Meal) item).strMealThumb);
             holder.itemView.setOnClickListener(v -> searchListener.onItemClick(item));
         }
     }

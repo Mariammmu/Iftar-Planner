@@ -1,5 +1,7 @@
 package com.mariammuhammad.iftarplanner.Views;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
 import com.mariammuhammad.iftarplanner.Common.NetworkConnectionListener;
 import com.mariammuhammad.iftarplanner.Presenter.NetworkConnection;
 import com.mariammuhammad.iftarplanner.R;
@@ -43,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements NetworkConnection
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         changeStatusBarColor();
-
-
 
         bottomNav = findViewById(R.id.bottom_navigation);
         lottieAnimationView=findViewById(R.id.waitingAnimation);
@@ -96,8 +97,8 @@ private void changeStatusBarColor(){
 }
 
     private boolean isGuestUser() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        String userId = sharedPreferences.getString("userId", "");
+       // SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String userId = MySharedPrefs.getInstance().getString("userId", "");
         return "guest".equals(userId);
     }
     private boolean handleBottomNavigation(MenuItem item) {
@@ -106,9 +107,9 @@ private void changeStatusBarColor(){
         if (itemId == R.id.home) {
             navController.navigate(R.id.homeFragment);
             return true;
-        } else if (itemId == R.id.favorite || itemId == R.id.calendar || itemId == R.id.profile) {
+        } else if (itemId == R.id.favorite || itemId == R.id.calendar ) { //I updated that
             if (isGuestUser()) {
-                showErrorSnackBar("Please log in to access this section.", R.color.accent);
+                showErrorSnackBar("Please log in to access this section.", R.color.primary_light);
                 return false; // Prevents navigation
             }
         }
@@ -155,7 +156,7 @@ private void changeStatusBarColor(){
     public void onNetworkLost() {
         runOnUiThread(() -> {
             updateUIBasedOnNetwork();
-            showErrorSnackBar("Network is not available", R.color.accent);
+            showErrorSnackBar("Network is not available.\nCheck your Internet Connection", R.color.primary_dark);
         });
 
     }
@@ -164,7 +165,8 @@ private void changeStatusBarColor(){
         int color = ContextCompat.getColor(this, colorResId);
         Snackbar snackbar = Snackbar.make(getWindow().getDecorView().getRootView(), message, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundTintList(ColorStateList.valueOf(color));
+        colorResId = ContextCompat.getColor(this,R.color.background_on);
+        snackbarView.setBackgroundTintList(ColorStateList.valueOf(colorResId));
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();

@@ -25,9 +25,8 @@ public interface CallMeals {
 
     @GET("filter.php")
     Single<RootMeal> getMealsByCategory(@Query("c") String category);
-
-
-
+    @GET("search.php")
+    Single<RootMeal> getMealByName(@Query("s") String meal);
 
 //    @GET("search.php")
 //    Call<RootMeal> getAllMealsByLetter(@Query("f") String letter);

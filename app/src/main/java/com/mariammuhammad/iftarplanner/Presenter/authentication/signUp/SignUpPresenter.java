@@ -1,7 +1,5 @@
 package com.mariammuhammad.iftarplanner.Presenter.authentication.signUp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -16,15 +14,10 @@ import com.mariammuhammad.iftarplanner.Views.authentication.signup.SignUpView;
 public class SignUpPresenter implements SignUpContract {
     //it acts as a bridge between the View (SignUpView) and Firebase Authentication.
     private final SignUpView signUpView;
-    private final FirebaseAuth firebaseAuth;
-    SharedPreferences sharedPreferences;
-    private final View view;
 
-    public SignUpPresenter(SignUpView signUpView, Context context, View view) {
+
+    public SignUpPresenter(SignUpView signUpView) {
         this.signUpView = signUpView;
-        this.view = view;
-        this.firebaseAuth = FirebaseAuth.getInstance();
-        sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -33,7 +26,7 @@ public class SignUpPresenter implements SignUpContract {
             return;
         }
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(success -> updateUserProfile(username,email,password))
                 .addOnFailureListener(error -> signUpView.onSignupFailure(error.getMessage()));
     }
@@ -68,7 +61,7 @@ public class SignUpPresenter implements SignUpContract {
 
     @Override
     public void updateUserProfile(String username, String email, String password) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(username)

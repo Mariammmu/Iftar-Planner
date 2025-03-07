@@ -42,13 +42,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class PlanFragment extends Fragment implements PlanView, SpecificMealListener, RemoveListener {
+public class PlanFragment extends Fragment implements PlanView, RemoveListener {
     private CalendarView calendarView;
     private RecyclerView planRecyclerView;
-    private FavoriteAdapter favoriteAdapter;
+    private PlanAdapter planAdapter;
     private PlanPresenter presenter;
-    private Repository repository;
-    private long selectedDateInMillis = System.currentTimeMillis(); // Default to today
+    SpecificMealListener specificMealListener;
+    private long selectedDateInMillis = System.currentTimeMillis();
 
     public PlanFragment() {
         // Required empty public constructor
@@ -85,15 +85,15 @@ public class PlanFragment extends Fragment implements PlanView, SpecificMealList
             selectedDateInMillis = calendar.getTimeInMillis();
         });
 
-        Repository repository = Repository.getInstance(
+
+        presenter= new PlanPresenter(requireContext(),this,Repository.getInstance(
                 MealLocalDataSource.getInstance(requireContext()),
                 MealRemoteDataSource.getInstance(),
                 CategoriesRemoteDataSource.getInstance(),
                 CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance()
+                IngredientsRemoteDataSource.getInstance())
         );
 
-        presenter= new PlanPresenter(requireContext(),this,repository);
         presenter.getAllMealsFromPlan();
     }
 
@@ -104,8 +104,19 @@ public class PlanFragment extends Fragment implements PlanView, SpecificMealList
                 planRecyclerView.setVisibility(View.GONE);
             }else{
                 planRecyclerView.setVisibility(View.VISIBLE);
-                favoriteAdapter= new FavoriteAdapter(requireContext(),mealStorages,this);
-                planRecyclerView.setAdapter(favoriteAdapter);
+                planAdapter= new PlanAdapter(requireContext(),mealStorages,specificMealListener);
+                planRecyclerView.setAdapter(planAdapter);
+                planAdapter.specificMealListener =new SpecificMealListener() {
+                    @Override
+                    public void onMealClick(int id, Meal meal) {
+                        NavController navController = Navigation.findNavController(requireView());
+                        PlanFragmentDirections.ActionPlanFragmentNavToItemInfoFragment action =
+                                PlanFragmentDirections.actionPlanFragmentNavToItemInfoFragment(id, meal);
+                        navController.navigate(action);
+                    }
+                };
+                //important // don't forget it
+                  planAdapter.removeListener=this::onMealDelete;
             }
     }
 
@@ -125,13 +136,7 @@ public class PlanFragment extends Fragment implements PlanView, SpecificMealList
         Log.i("TAG", "showError: " + message);
     }
 
-    @Override
-    public void onMealClick(int id, Meal meal) {
-        NavController navController = Navigation.findNavController(requireView());
-        PlanFragmentDirections.ActionPlanFragmentNavToItemInfoFragment action =
-                PlanFragmentDirections.actionPlanFragmentNavToItemInfoFragment(id, meal);
-        navController.navigate(action);
-    }
+
 
     @Override
     public void onMealDelete(MealStorage mealStorage) {
@@ -139,8 +144,6 @@ public class PlanFragment extends Fragment implements PlanView, SpecificMealList
         presenter.deleteData(mealStorage);
         displayMeal(mealStorage);
         showSnackBar("Meal removed from planned meals");
-
-
     }
     private void showSnackBar(String message){
         Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);

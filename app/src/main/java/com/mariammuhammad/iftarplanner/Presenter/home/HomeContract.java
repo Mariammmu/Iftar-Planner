@@ -6,6 +6,5 @@ public interface HomeContract {
     void getAllCategories();
 
     void getAllCountries();
-    void logout();
     void getDataFromFirebase();
 }

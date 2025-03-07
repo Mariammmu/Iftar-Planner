@@ -11,7 +11,7 @@
              />
             <stroke
                 android:width="3dp"
-                android:color="@color/accent"/>
+                android:color="@color/primary_dark"/>
         </shape>
     </item>
 </layer-list>
