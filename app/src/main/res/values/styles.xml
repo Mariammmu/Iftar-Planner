@@ -13,13 +13,23 @@
             <item name="cornerSize">50%</item>
         </style>
 
-    <style name="CalendarDarkTheme" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:textColor">@color/primary_dark</item>
-        <item name="android:dateTextAppearance">@style/CalendarDateTextAppearance</item>
+    <style name="CustomCalendarView" parent="android:Widget.Material.CalendarView">
+        <item name="android:weekDayTextAppearance">@style/CalendarWeekDayStyle</item>
+        <item name="android:dateTextAppearance">@style/CalendarDateStyle</item>
+        <item name="android:headerMonthTextAppearance">@style/CalendarHeaderStyle</item>
+        <item name="android:headerYearTextAppearance">@style/CalendarHeaderStyle</item>
     </style>
 
-    <style name="CalendarDateTextAppearance" parent="@android:style/TextAppearance.Small">
+
+    <style name="CalendarWeekDayStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/primary_dark</item>
+    </style>
+
+    <style name="CalendarDateStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/primary_dark</item>
+    </style>
+
+    <style name="CalendarHeaderStyle" parent="@android:style/TextAppearance.Large">
         <item name="android:textColor">@color/primary_dark</item>
     </style>
 

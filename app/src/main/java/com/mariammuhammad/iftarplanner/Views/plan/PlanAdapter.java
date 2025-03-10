@@ -2,6 +2,7 @@ package com.mariammuhammad.iftarplanner.Views.plan;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -70,28 +72,43 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     }
 
     private void showConfirmationDialog(MealStorage mealStorage) {
-        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Confirm Deletion");
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        // Create a custom title with white text
+        TextView titleView = new TextView(context);
+        titleView.setText("Confirm Deletion");
+        titleView.setTextSize(20);
+        titleView.setPadding(40, 40, 40, 20);
+        titleView.setTextColor(ContextCompat.getColor(context, R.color.white));
+        titleView.setTypeface(null, Typeface.BOLD);
+
+        builder.setCustomTitle(titleView); // Set the custom title
         builder.setMessage("Are you sure you want to delete this meal?");
 
-        builder.setNegativeButton("No",(dialog,which)->{
-            dialog.dismiss();
-        });
-
-        builder.setPositiveButton("Yes",(dialog,which)->{
-            if(removeListener!=null){
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            if (removeListener != null) {
                 removeListener.onMealDelete(mealStorage);
             }
         });
 
-        builder.show();
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.primary_dark);
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.white));
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.white));
+
+        TextView messageView = dialog.findViewById(android.R.id.message);
+        if (messageView != null) {
+            messageView.setTextColor(ContextCompat.getColor(context, R.color.white));
+        }
     }
 
     public class PlanViewHolder extends RecyclerView.ViewHolder {
         TextView mealName;
         ImageView mealImage;
-
         Button removeBtn;
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);

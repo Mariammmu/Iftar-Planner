@@ -226,47 +226,79 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
 
     }
 
+//    private void showDatePicker(Meal meal) {
+//        Calendar calendar = Calendar.getInstance();
+//        long startOfWeek = calendar.getTimeInMillis();
+//        calendar.add(Calendar.DAY_OF_WEEK, 7);
+//        long endOfWeek = calendar.getTimeInMillis();
+//
+//        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+//        constraintsBuilder.setStart(startOfWeek);
+//        constraintsBuilder.setEnd(endOfWeek);
+//        constraintsBuilder.setValidator(new CalendarConstraints.DateValidator() {
+//            @Override
+//            public boolean isValid(long date) {
+//                return date >= startOfWeek && date <= endOfWeek;
+//            }
+//
+//            @Override
+//            public int describeContents() {
+//                return 0;
+//            }
+//
+//            @Override
+//            public void writeToParcel(@NonNull Parcel parcel, int i) {
+//            }
+//        });
+//
+//        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+//                .setTitleText("Select a day this week")
+//                .setCalendarConstraints(constraintsBuilder.build())
+//                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+//                .build();
+//        datePicker.show(getParentFragmentManager(), "DATE_PICKER");
+//
+//        datePicker.addOnPositiveButtonClickListener(selection -> {
+//            Calendar selectedCalendar = Calendar.getInstance(TimeZone.getTimeZone("Africa/Cairo"));
+//            selectedCalendar.setTimeInMillis(selection);
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//            String selectedDate = format.format(selectedCalendar.getTime());
+//            saveMealToPlan(meal, selectedDate);
+//        });
+//    }
+
     private void showDatePicker(Meal meal) {
+
         Calendar calendar = Calendar.getInstance();
-        long startOfWeek = calendar.getTimeInMillis();
-        calendar.add(Calendar.DAY_OF_WEEK, 7);
-        long endOfWeek = calendar.getTimeInMillis();
+        long today = calendar.getTimeInMillis();
 
         CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
-        constraintsBuilder.setStart(startOfWeek);
-        constraintsBuilder.setEnd(endOfWeek);
-        constraintsBuilder.setValidator(new CalendarConstraints.DateValidator() {
-            @Override
-            public boolean isValid(long date) {
-                return date >= startOfWeek && date <= endOfWeek;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(@NonNull Parcel parcel, int i) {
-            }
-        });
+        constraintsBuilder.setStart(today); // Block past dates
 
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select a day this week")
+                .setTitleText("Select a future date") // Updated title
                 .setCalendarConstraints(constraintsBuilder.build())
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build();
+
+
         datePicker.show(getParentFragmentManager(), "DATE_PICKER");
 
+
         datePicker.addOnPositiveButtonClickListener(selection -> {
+
             Calendar selectedCalendar = Calendar.getInstance(TimeZone.getTimeZone("Africa/Cairo"));
             selectedCalendar.setTimeInMillis(selection);
+
+
+            // Format the selected date correctly
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String selectedDate = format.format(selectedCalendar.getTime());
+
+            //  Save the meal for the selected date
             saveMealToPlan(meal, selectedDate);
         });
     }
-
 
     private void saveMealToPlan(Meal meal, String selectedDate) {
       //  String userId = sharedPreferences.getString("userId", null);
@@ -282,18 +314,29 @@ public class ItemInfoFragment extends Fragment implements MealInfoView {
         }
     }
 
-    private String formatDate(String inputDate) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); // Adjust input format if needed
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()); // Desired output format
+//    private String formatDate(String inputDate) {
+//        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()); // Desired output format
+//
+//        try {
+//            Date date = inputFormat.parse(inputDate);
+//            return outputFormat.format(date);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//            return inputDate;
+//        }
+//    }
+private String formatDate(String inputDate) {
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-        try {
-            Date date = inputFormat.parse(inputDate);
-            return outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return inputDate;
-        }
+    try {
+        Date date = format.parse(inputDate);
+        return format.format(date);
+    } catch (ParseException e) {
+        e.printStackTrace();
+        return inputDate;
     }
+}
 
     private void showSnackBar(String message) {
         Snackbar snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT);

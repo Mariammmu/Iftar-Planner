@@ -24,6 +24,9 @@ public class MealStorage {
     @ColumnInfo(name = "date")
     private String date;
 
+
+    private String type;
+
     @Embedded // Stores Meal fields as separate columns
     private Meal meal;
 
@@ -72,13 +75,20 @@ public class MealStorage {
         this.meal = meal;
     }
 
-    @NonNull
     public String getDate() {
         return date;
     }
 
-    public void setDate(@NonNull String date) {
+    public void setDate( String date) {
         this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @NonNull

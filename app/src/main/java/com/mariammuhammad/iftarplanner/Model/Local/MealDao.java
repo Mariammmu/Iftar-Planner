@@ -24,7 +24,7 @@ public interface MealDAO {
     @Query("SELECT * FROM meals_table WHERE is_planned = 1")
     Single<List<MealStorage>> getAllPlannedMeals();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertMeal(MealStorage mealStorage);
 
     @Delete
@@ -33,5 +33,13 @@ public interface MealDAO {
     @Query("DELETE FROM meals_table")
     Completable deleteAllMeals();
 
+    @Query("SELECT * FROM meals_table WHERE is_planned = 1 AND date = :date")
+    Single<List<MealStorage>> getMealsByDate(String date);
+
+    @Query("SELECT COUNT(*) FROM meals_table WHERE is_planned = 1 AND date = :date")
+    Single<Integer> countMealsByDate(String date);
+
+    @Query("DELETE FROM meals_table WHERE is_planned = 1 AND date = :date")
+    Completable deleteMealsByDate(String date);
 
 }

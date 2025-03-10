@@ -10,4 +10,7 @@ public interface PlanView {
     void displayMeal(MealStorage mealStorage);
 //    void showEmptyDay();
     void showError(String message);
+    void showSuccess(String message);
+    void showMealCount(int count);
+    void showEmptyDay();
 }

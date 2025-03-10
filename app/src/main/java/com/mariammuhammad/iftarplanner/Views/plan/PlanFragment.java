@@ -11,6 +11,7 @@ import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -36,8 +37,10 @@ import com.mariammuhammad.iftarplanner.R;
 import com.mariammuhammad.iftarplanner.Views.favorite.FavoriteAdapter;
 import com.mariammuhammad.iftarplanner.Views.favorite.RemoveListener;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -47,6 +50,8 @@ public class PlanFragment extends Fragment implements PlanView, RemoveListener {
     private RecyclerView planRecyclerView;
     private PlanAdapter planAdapter;
     private PlanPresenter presenter;
+    private String selectedDate;
+
     SpecificMealListener specificMealListener;
     private long selectedDateInMillis = System.currentTimeMillis();
 
@@ -62,40 +67,78 @@ public class PlanFragment extends Fragment implements PlanView, RemoveListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_plan, container, false);
+
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        calendarView = view.findViewById(R.id.calendarView);
-        planRecyclerView = view.findViewById(R.id.recyclerView);
 
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        planRecyclerView.setLayoutManager(layoutManager);
 
-        calendarView.setMinDate(System.currentTimeMillis());
+
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            calendarView = view.findViewById(R.id.calendarView);
+            planRecyclerView = view.findViewById(R.id.recyclerView);
+            int primaryColor = getResources().getColor(R.color.primary_dark);
+           // setHeaderColor(calendarView, primaryColor);
+            planRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            presenter = new PlanPresenter(requireContext(), this, Repository.getInstance(
+                    MealLocalDataSource.getInstance(requireContext()),
+                    MealRemoteDataSource.getInstance(),
+                    CategoriesRemoteDataSource.getInstance(),
+                    CountriesRemoteDataSource.getInstance(),
+                    IngredientsRemoteDataSource.getInstance())
+            );
+
+                    calendarView.setMinDate(System.currentTimeMillis());
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, dayOfMonth);
             selectedDateInMillis = calendar.getTimeInMillis();
         });
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            selectedDate = dateFormat.format(System.currentTimeMillis());
 
-        presenter= new PlanPresenter(requireContext(),this,Repository.getInstance(
-                MealLocalDataSource.getInstance(requireContext()),
-                MealRemoteDataSource.getInstance(),
-                CategoriesRemoteDataSource.getInstance(),
-                CountriesRemoteDataSource.getInstance(),
-                IngredientsRemoteDataSource.getInstance())
-        );
+            presenter.loadMealsForDate(selectedDate);
 
-        presenter.getAllMealsFromPlan();
-    }
+            calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+
+                selectedDate = dateFormat.format(calendar.getTime());
+                Log.d("DEBUG", "Selected Date: " + selectedDate);
+
+                presenter.loadMealsForDate(selectedDate);
+            });
+
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    requireActivity().finish();
+                }
+            });
+
+        }
+//    public static void setHeaderColor(CalendarView calendarView, int color) {
+//        try {
+//            Field delegateField = CalendarView.class.getDeclaredField("mDelegate");
+//            delegateField.setAccessible(true);
+//            Object delegate = delegateField.get(calendarView);
+//
+//            Field headerField = delegate.getClass().getDeclaredField("mHeader");
+//            headerField.setAccessible(true);
+//            View header = (View) headerField.get(delegate);
+//
+//            header.setBackgroundColor(color);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     @Override
@@ -122,20 +165,30 @@ public class PlanFragment extends Fragment implements PlanView, RemoveListener {
 
     @Override
     public void displayMeal(MealStorage mealStorage) {
-        presenter.getAllMealsFromPlan();
+        presenter.loadMealsForDate(selectedDate);
     }
-
-//    @Override
-//    public void showEmptyCalendar() {}
-//
-//    @Override
-//    public void showEmptyDay() {}
 
     @Override
     public void showError(String message) {
         Log.i("TAG", "showError: " + message);
     }
 
+    @Override
+    public void showSuccess(String message) {
+        showSnackBar(message);
+
+    }
+
+    @Override
+    public void showMealCount(int count) {
+        showSnackBar("Meals available: " + count);
+    }
+
+    @Override
+    public void showEmptyDay() {
+        planRecyclerView.setVisibility(View.GONE);
+        showSnackBar("No meals planned for this date.");
+    }
 
 
     @Override

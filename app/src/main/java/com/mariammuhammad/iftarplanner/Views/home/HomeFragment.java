@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -93,6 +94,14 @@ public class HomeFragment extends Fragment implements HomeView, NetworkConnectio
         nestedScrollView=view.findViewById(R.id.nestedScrollerHome);
         tvDaily=view.findViewById(R.id.daily_inspiration);
         tvMoreLike=view.findViewById(R.id.tvAllFav);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                });
 
 
 

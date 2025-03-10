@@ -12,12 +12,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mariammuhammad.iftarplanner.Common.MySharedPrefs;
+import com.mariammuhammad.iftarplanner.Model.DTO.Meal;
 import com.mariammuhammad.iftarplanner.Model.MealStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -100,4 +102,23 @@ public class MealLocalDataSource {
         });
     }
 
+
+    public Single<List<MealStorage>> getMealsByDate(String date) {
+        return mealDAO.getMealsByDate(date)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Single<Integer> countMealsByDate(String date) {
+        return mealDAO.countMealsByDate(date)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Completable deleteMealsByDate(String date) {
+        return mealDAO.deleteMealsByDate(date)
+                .subscribeOn(Schedulers.io());
+    }
+
 }
+
+
+

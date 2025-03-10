@@ -66,6 +66,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             holder.tvItemName.setText(((Meal) item).strMeal);
             holder.loadImage(((Meal) item).strMealThumb);
             holder.itemView.setOnClickListener(v -> searchListener.onItemClick(item));
+            holder.itemImage.setOnClickListener(v -> searchListener.onItemClick(item));
+
         }
     }
 
@@ -94,11 +96,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         COUNTRY_CODE_MAP.put("Kenyan", "ke");
         COUNTRY_CODE_MAP.put("Malaysian", "my");
         COUNTRY_CODE_MAP.put("Mexican", "mx");
+        COUNTRY_CODE_MAP.put("Spanish", "es");
         COUNTRY_CODE_MAP.put("Moroccan", "ma");
         COUNTRY_CODE_MAP.put("Polish", "pl");
         COUNTRY_CODE_MAP.put("Portuguese", "pt");
         COUNTRY_CODE_MAP.put("Russian", "ru");
-        COUNTRY_CODE_MAP.put("Spanish", "es");
+        COUNTRY_CODE_MAP.put("Filipino", "ph");
+        COUNTRY_CODE_MAP.put("Ukrainian", "ua");
+        COUNTRY_CODE_MAP.put("Uruguayan", "uy");
         COUNTRY_CODE_MAP.put("Thai", "th");
         COUNTRY_CODE_MAP.put("Tunisian", "tn");
         COUNTRY_CODE_MAP.put("Turkish", "tr");
@@ -126,7 +131,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         public void loadImage(String imageUrl) {
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 itemImage.setVisibility(View.VISIBLE);
-                Glide.with(itemView.getContext()).load(imageUrl).placeholder(R.drawable.load).into(itemImage);
+                Glide.with(itemView.getContext()).load(imageUrl).placeholder(R.drawable.load).
+                        transform(new com.bumptech.glide.load.resource.bitmap.CircleCrop())
+                        .into(itemImage);
             } else {
                 itemImage.setVisibility(View.GONE);
             }

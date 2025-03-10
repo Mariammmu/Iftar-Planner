@@ -5,6 +5,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -38,14 +40,14 @@ import com.mariammuhammad.iftarplanner.R;
 
 public class ProfileFragment extends Fragment implements ProfileView, NetworkConnectionListener {
 
-        TextView tvFavorite, tvPlan, tvName, tvChef;
+    TextView tvFavorite, tvPlan, tvName, tvChef;
 
-        ImageView imageUser;
-        View layoutNoInternet;
-        Button btnLogout,btnGuest;
+    ImageView imageUser;
+    View layoutNoInternet;
+    Button btnLogout, btnGuest;
 
-        NetworkConnection connectionPresenter;
-        ProfilePresenter profilePresenter;
+    NetworkConnection connectionPresenter;
+    ProfilePresenter profilePresenter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -54,7 +56,7 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
     }
 
     @Override
@@ -67,23 +69,23 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layoutNoInternet=view.findViewById(R.id.noInternet_layout_profile);
+        layoutNoInternet = view.findViewById(R.id.noInternet_layout_profile);
 
-        tvFavorite=view.findViewById(R.id.txtFavorite);
-        tvPlan=view.findViewById(R.id.txtPlanned);
-        tvName=view.findViewById(R.id.txtUserName);
-        tvChef=view.findViewById(R.id.txtHelloChef);
-        imageUser=view.findViewById(R.id.imageUser);
-        btnGuest=view.findViewById(R.id.btnSignUpGuest);
-        btnLogout=view.findViewById(R.id.btnLogout);
-        profilePresenter= new ProfilePresenter(this,
+        tvFavorite = view.findViewById(R.id.txtFavorite);
+        tvPlan = view.findViewById(R.id.txtPlanned);
+        tvName = view.findViewById(R.id.txtUserName);
+        tvChef = view.findViewById(R.id.txtHelloChef);
+        imageUser = view.findViewById(R.id.imageUser);
+        btnGuest = view.findViewById(R.id.btnSignUpGuest);
+        btnLogout = view.findViewById(R.id.btnLogout);
+        profilePresenter = new ProfilePresenter(this,
                 Repository.getInstance(MealLocalDataSource.getInstance(requireContext()),
                         MealRemoteDataSource.getInstance(),
                         CategoriesRemoteDataSource.getInstance(),
                         CountriesRemoteDataSource.getInstance(),
                         IngredientsRemoteDataSource.getInstance()));
 
-        connectionPresenter= new NetworkConnection(requireContext(),this);
+        connectionPresenter = new NetworkConnection(requireContext(), this);
 
         btnGuest.setOnClickListener(view1 -> { //I updated that
             Navigation.findNavController(view)
@@ -94,7 +96,7 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
         });
         btnLogout.setOnClickListener(view1 -> {
             showLogoutConfirmationDialog();
-            });
+        });
 
         tvFavorite.setOnClickListener(view1 -> {
             Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_favoriteFragment);
@@ -110,7 +112,7 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
     public void signOut() {
 
         Navigation.findNavController(requireView()).navigate(R.id.action_profileFragment_to_welcomeFragment);
-        Toast.makeText(getContext(),"Logged out Successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Logged out Successfully", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -120,26 +122,46 @@ public class ProfileFragment extends Fragment implements ProfileView, NetworkCon
         return "guest".equals(userId);
     }
 
-
     private void showLogoutConfirmationDialog() {
-        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle("Logout Confirmation")
-                .setMessage("Are you sure you want to log out?")
-                .setPositiveButton("Yes", (dialogInterface, which) -> {
-                    profilePresenter.logout();
-                })
-                .setNegativeButton("No", (dialogInterface, which) -> dialogInterface.dismiss())
-                .create();
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
+        // Create a custom title
+        TextView titleView = new TextView(requireContext());
+        titleView.setText("Logout Confirmation");
+        titleView.setTextSize(20);
+        titleView.setPadding(40, 20, 40, 20);
+        titleView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+
+        TextView messageView = new TextView(requireContext());
+        messageView.setText("Are you sure you want to log out?");
+        messageView.setTextSize(16);
+        messageView.setPadding(40, 20, 40, 20);
+        messageView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+
+        builder.setCustomTitle(titleView);
+        builder.setView(messageView);
+        builder.setPositiveButton("Yes", (dialogInterface, which) -> {
+            profilePresenter.logout();
+        });
+
+        builder.setNegativeButton("No", (dialogInterface, which) -> dialogInterface.dismiss());
+
+        AlertDialog dialog = builder.create();
         dialog.show();
 
-        if (dialog.getWindow() != null) {
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(Color.parseColor("#19374F"));
-            drawable.setCornerRadius(16f);
-            dialog.getWindow().setBackgroundDrawable(drawable);
-        }
+        dialog.getWindow().setBackgroundDrawableResource(R.color.primary_dark);
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
     }
+
+//        if (dialog.getWindow() != null) {
+//            GradientDrawable drawable = new GradientDrawable();
+//            drawable.setColor(Color.parseColor("#19374F"));
+//            drawable.setCornerRadius(16f);
+//            dialog.getWindow().setBackgroundDrawable(drawable);
+//        }
+    
 
 
     @Override

@@ -66,28 +66,27 @@ public class HomePresenter implements HomeContract{
     }
 
 
-    @Override
     public void getAllCategories() {
         homeView.showLoading();
         disposable.add(
                 repository.getCategories()
-                .subscribeOn(Schedulers.io())
-                .map(RootCategories::getCategories)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(categoryResponse -> {
-                    homeView.hideLoading();
-                    if (categoryResponse != null && !categoryResponse.isEmpty()) {
-                        homeView.showCategories(categoryResponse);
-                    } else {
-                        homeView.showError("No categories found");
-                    }
-                }, throwable -> homeView.showError(throwable.getMessage())
-
-                )
+                        .subscribeOn(Schedulers.io())
+                        .map(RootCategories::getCategories)
+                        .map(categories -> {
+                            categories.removeIf(category -> "Pork".equalsIgnoreCase(category.getStrCategory()));
+                            return categories;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(categoryResponse -> {
+                            homeView.hideLoading();
+                            if (categoryResponse != null && !categoryResponse.isEmpty()) {
+                                homeView.showCategories(categoryResponse);
+                            } else {
+                                homeView.showError("No categories found");
+                            }
+                        }, throwable -> homeView.showError(throwable.getMessage()))
         );
-
     }
-
 
 
     @Override

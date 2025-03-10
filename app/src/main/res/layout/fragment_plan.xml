@@ -53,15 +53,14 @@
 
         <CalendarView
             android:id="@+id/calendarView"
+            style="@style/CustomCalendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/different_background"
-            style="@style/CalendarDarkTheme"
-            android:unfocusedMonthDateColor="@color/primary_dark"
+            android:background="@drawable/calendar"
             android:weekSeparatorLineColor="@color/primary_dark"
 
-             />
+            />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"

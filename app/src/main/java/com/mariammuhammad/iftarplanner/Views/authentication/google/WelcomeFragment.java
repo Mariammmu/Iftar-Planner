@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -100,7 +101,13 @@ public class WelcomeFragment extends Fragment implements GoogleView {
         txtGuest = view.findViewById(R.id.txtGuest);
 
 
-
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                });
 
 
         sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -142,7 +149,7 @@ public class WelcomeFragment extends Fragment implements GoogleView {
     @Override
     public void failSignInGoogle(String errorMessage) {
         Log.i(TAG, "failSignInGoogle: ");
-        showSnackBar("Sign In with Google Failed: " + errorMessage);
+        //showSnackBar("Sign In with Google Failed: " + errorMessage);
 
     }
 

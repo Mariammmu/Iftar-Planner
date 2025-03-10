@@ -103,5 +103,25 @@ public class Repository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+    public Single<List<MealStorage>> getMealsByDate(String date) {
+        return mealLocalDataSource.getMealsByDate(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+
+    public Single<Integer> countMealsByDate(String date) {
+        return mealLocalDataSource.countMealsByDate(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Completable deleteMealsByDate(String date) {
+        return mealLocalDataSource.deleteMealsByDate(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

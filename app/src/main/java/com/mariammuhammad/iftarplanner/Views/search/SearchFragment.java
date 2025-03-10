@@ -107,6 +107,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
 
 
 
+
+
         presenter = new SearchPresenter(this, Repository.getInstance(
                 MealLocalDataSource.getInstance(requireContext()),
                 MealRemoteDataSource.getInstance(),
@@ -125,7 +127,7 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
             } else if (item instanceof Country) {
                 navigateToMealFilter(((Country) item).getStrArea(), "country");
             } else if (item instanceof Meal) {
-
+               onItemClick((Meal)item);
             }
         });
         searchRecycler.setAdapter(searchAdapter);
@@ -276,6 +278,8 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
     }
 
 
+
+
     @Override
     public void showMeals(ArrayList<Meal> meals) {
         allItems.clear();
@@ -320,8 +324,16 @@ public class SearchFragment extends Fragment implements SearchView, SearchListen
 
     @Override
     public void onItemClick(Object item) {
-      //  SearchFragmentDirections.ActionSearchFragmentToItemInfoFragment action =
+        //  SearchFragmentDirections.ActionSearchFragmentToItemInfoFragment action =
         //        SearchFragmentDirections.actionSearchFragmentToItemInfoFragment();
+        // if (item instanceof Meal) {
+        Meal meal = (Meal) item;
+        //     NavController navController = Navigation.findNavController(requireView());
+        SearchFragmentDirections.ActionSearchFragmentToItemInfoFragment action =
+                SearchFragmentDirections.actionSearchFragmentToItemInfoFragment(Integer.parseInt(meal.idMeal), meal);
+
+        Navigation.findNavController(requireView()).navigate(action);
+    //}
     }
 
     @Override

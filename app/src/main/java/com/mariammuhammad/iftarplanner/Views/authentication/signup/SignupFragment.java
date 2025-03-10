@@ -4,10 +4,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
@@ -61,6 +63,15 @@ TextView txtLogin;
         etConfirmPass=view.findViewById(R.id.editTxtConfirmPass);
         txtLogin=view.findViewById(R.id.loginTxt);
         signUpPresenter = new SignUpPresenter(this);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        NavController navController = Navigation.findNavController(view);
+                        navController.navigate(R.id.welcomeFragment);
+                    }
+                });
 
         btnSignUpFrag.setOnClickListener(v -> {
             String username = etName.getText().toString().trim();

@@ -95,6 +95,9 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.MyViewHo
         else if (countryName.equals("portuguese")) return "pt";
         else if (countryName.equals("russian")) return "ru";
         else if (countryName.equals("spanish")) return "es";
+        else if (countryName.equals("ukrainian")) return "ua";
+        else if (countryName.equals("uruguayan")) return "uy";
+        else if (countryName.equals("filipino")) return "ph";
         else if (countryName.equals("thai")) return "th";
         else if (countryName.equals("tunisian")) return "tn";
         else if (countryName.equals("turkish")) return "tr";

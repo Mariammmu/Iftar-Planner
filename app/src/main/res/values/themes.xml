@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/primary_dark</item>
         <item name="colorPrimaryVariant">@color/primary_light</item>
 
+
         <item name="colorSecondaryVariant">@color/accent</item>
         <item name="colorOnSecondary">@color/primary_text</item>
 
@@ -15,6 +16,7 @@
         <item name="android:navigationBarColor">#19374F</item>
 
         <item name="android:windowLightStatusBar">true</item>
+
 
     </style>
 

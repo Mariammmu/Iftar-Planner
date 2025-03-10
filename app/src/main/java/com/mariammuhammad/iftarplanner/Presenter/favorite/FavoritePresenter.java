@@ -1,8 +1,10 @@
 package com.mariammuhammad.iftarplanner.Presenter.favorite;
 
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -12,7 +14,10 @@ import com.mariammuhammad.iftarplanner.Model.MealStorage;
 import com.mariammuhammad.iftarplanner.Model.Repo.Repository;
 import com.mariammuhammad.iftarplanner.Views.favorite.FavoriteView;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FavoritePresenter implements FavoriteContract {
@@ -24,6 +29,13 @@ public class FavoritePresenter implements FavoriteContract {
         this.favoriteView = favoriteView;
         this.repository = repository;
         databaseReference = FirebaseDatabase.getInstance().getReference("Meals");
+    }
+
+    public Single<List<MealStorage>> getAllFavouriteMeals() {
+        return repository.getAllFavouriteMeals()
+                .doOnSuccess(meals -> Log.d("DEBUG", "Favorite Meals Count: " + meals.size()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
